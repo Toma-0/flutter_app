@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# flutter_app
-=======
 このリポジトリはflutterやFlask等を用いてToma-0が試してみたいシステムを試しているものです。
 
 現在行っているもの
@@ -15,4 +12,3 @@ OshiChokin
 
 yourSelfLaff
 機械学習を用いたおすすめのお笑い芸人を勧めてくれるアプリ
->>>>>>> c87e160 (Initial commit)
