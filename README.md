@@ -12,3 +12,5 @@ OshiChokin
 
 yourSelfLaff
 機械学習を用いたおすすめのお笑い芸人を勧めてくれるアプリ
+
+configsyuusei
