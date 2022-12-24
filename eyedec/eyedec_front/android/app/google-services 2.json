@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "134410375961",
+    "project_id": "eyedecapp",
+    "storage_bucket": "eyedecapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134410375961:android:ea978d529cb686549d2b88",
+        "android_client_info": {
+          "package_name": "com.example.eyedec_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134410375961-1o0p7kp8i4jlrnpq5h93sv73lbocielv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH8Rv-7EkNI-Iej5PcxTJLqom9DtclN_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134410375961-1o0p7kp8i4jlrnpq5h93sv73lbocielv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "134410375961-d5252ejfs9dh1qsbjnfk0euq98g4gsfa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eyedecFront"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
