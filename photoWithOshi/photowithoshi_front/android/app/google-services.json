@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "271347922322",
+    "project_id": "photo-with-oshi",
+    "storage_bucket": "photo-with-oshi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271347922322:android:bb0ebfb87571c6bd28bd4b",
+        "android_client_info": {
+          "package_name": "com.example.photowithoshi_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271347922322-9g8a6t1kbdgm9dh66jv9bksbr83sinjr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqRsalNTclFXzEWF40-HwOuAEv3lgBiH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271347922322-9g8a6t1kbdgm9dh66jv9bksbr83sinjr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

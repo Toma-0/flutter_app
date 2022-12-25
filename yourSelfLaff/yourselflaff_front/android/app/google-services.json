@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1065931345822",
+    "project_id": "your-self-laff",
+    "storage_bucket": "your-self-laff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065931345822:android:3d5d1f652c934b1981908f",
+        "android_client_info": {
+          "package_name": "com.example.yourselflaff_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065931345822-hmehp37gb5n2amqid4n2uqrt6hof7mh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6xlT2_XFud5ebiRxklJMWo9whde18QFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065931345822-hmehp37gb5n2amqid4n2uqrt6hof7mh3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
