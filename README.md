@@ -33,4 +33,4 @@ firebaseのMLも検討するべき？？？
 参考サイト:https://pub.dev/packages/google_ml_kit
 参考サイト:https://skmkuma.com/%E3%80%90firebase%E2%91%A1%E3%80%91mlkit%E3%81%AE%E6%A6%82%E8%A6%81/#i
 
-スケジュールとポモドーロの追加
+
