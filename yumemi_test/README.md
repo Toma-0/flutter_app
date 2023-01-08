@@ -1,16 +1,10 @@
-# yumemi_test
+製作者:Toma-0
 
-A new Flutter project.
+開発環境:MacBook Air 2019 メモリ8GB
+        VScode バージョン: 1.74.2
 
-## Getting Started
+最終更新日:1/9(月)
 
-This project is a starting point for a Flutter application.
+上記とは別にエラーが出た際の対処やわからなかったこと等はこちらに記載(ゆめみさんの課題のみ移行済み)
+https://www.notion.so/Teamspace-Home-6e14a65c796b45e2b2f6709fd2254f42
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
