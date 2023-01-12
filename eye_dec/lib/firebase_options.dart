@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,16 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAtRyahYXYJRZWkVIBJhJVcyq7RZACQkL8',
-    appId: '1:134410375961:web:4b5cdc55f1c1afd99d2b88',
-    messagingSenderId: '134410375961',
-    projectId: 'eyedecapp',
-    authDomain: 'eyedecapp.firebaseapp.com',
-    storageBucket: 'eyedecapp.appspot.com',
-    measurementId: 'G-YS3CX8C5V1',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCH8Rv-7EkNI-Iej5PcxTJLqom9DtclN_c',
     appId: '1:134410375961:android:0ce325015c00f0439d2b88',
@@ -62,16 +58,6 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAPUfJge-kRf8-UcQx8GEW5gQxAXjurg6A',
-    appId: '1:134410375961:ios:f057913343a360c99d2b88',
-    messagingSenderId: '134410375961',
-    projectId: 'eyedecapp',
-    storageBucket: 'eyedecapp.appspot.com',
-    iosClientId: '134410375961-m23o0b3q7fm74latmct7783sc64p8v1b.apps.googleusercontent.com',
-    iosBundleId: 'com.example.eyeDec',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAPUfJge-kRf8-UcQx8GEW5gQxAXjurg6A',
     appId: '1:134410375961:ios:f057913343a360c99d2b88',
     messagingSenderId: '134410375961',
