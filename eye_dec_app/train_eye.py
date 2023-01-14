@@ -38,16 +38,19 @@ def main():
 def dec_eye(img_name,i):
     img = cv2.imread(img_name,1)
     type(img)
-    img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    eyes = eye_cascade.detectMultiScale(img_gray)
+    if img is None:
+        print("NO")
+    else:
+        img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+        eyes = eye_cascade.detectMultiScale(img_gray)
 
 
-    j=0
+        j=0
 
-    for (ex, ey, ew, eh) in eyes:
-        eye_img = img[ey:ey+eh,ex:ex+ew]
-        cv2.imwrite("train/train_eye_img"+str(i)+"_"+str(j)+".png",eye_img)
-        j += 1
+        for (ex, ey, ew, eh) in eyes:
+            eye_img = img[ey:ey+eh,ex:ex+ew]
+            cv2.imwrite("train/train_eye_img4_"+str(i+400)+"_"+str(j)+".png",eye_img)
+            j += 1
 
 
 if __name__ == "__main__":
