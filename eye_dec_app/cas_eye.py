@@ -2,7 +2,7 @@ import os
 import numpy as np
 import cv2
 
-eye_cascade_path = '/usr/local/opt/opencv/share/opencv4/haarcascades/haarcascade_eye.xml'
+eye_cascade_path = '/Users/toma/実験ファイル/flutter_app/eye_dec_app/train/'
 eye_cascade = cv2.CascadeClassifier(eye_cascade_path)
 
 
@@ -17,8 +17,8 @@ def main():
         
 
 def eye_dec():
-    image_dir = u"train/"
-    image_list = os.listdir(r'train/')
+    image_dir = u"eye/"
+    image_list = os.listdir(r'eye/')
     count = 0
     for i in range(len(image_list)):
         img_name = image_dir+str(image_list[i])
@@ -47,6 +47,9 @@ def eye_dec():
                     cv2.imwrite(img_name+str(j+400)+".png",eye_img)
                     j += 1
                     count = 1
+        
+        img_name = img_name.replace('png', 'PNG')
+
     print(count)
     return count
 
