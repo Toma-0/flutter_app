@@ -6,6 +6,7 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
+import "sign_up.dart";
 
 //新しくユーザーを作成する画面
 
@@ -36,12 +37,11 @@ class _sign_in extends State<sign_in> {
       );
 
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Home(),
-          ),
-        );
-
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('そのパスワードは脆弱性があるため利用できません');
@@ -62,8 +62,8 @@ class _sign_in extends State<sign_in> {
           child: Column(children: [
             TextField(onChanged: (text) {
               setState(() {
-                    email = text;
-                  });
+                email = text;
+              });
             }),
             TextField(
                 onChanged: (text) {
@@ -77,6 +77,14 @@ class _sign_in extends State<sign_in> {
               child: const Text('Button'),
               onPressed: () {
                 mail_pass(email, pass);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Button'),
+              onPressed: () {
+                MaterialPageRoute(
+                  builder: (context) => Sign_up(),
+                );
               },
             ),
           ]),

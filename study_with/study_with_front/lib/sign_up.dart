@@ -5,6 +5,9 @@ import 'firebase_options.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'home.dart';
+import "sin_in.dart";
+
 //アプリの大まかな構成。
 //今回はロゴのみ
 class Sign_up extends StatelessWidget {
@@ -47,6 +50,14 @@ class _sign_up extends State<sign_up> {
                 mail_pass(email, pass);
               },
             ),
+            ElevatedButton(
+              child: const Text('Button'),
+              onPressed: () {
+                MaterialPageRoute(
+                  builder: (context) => Sign_in(),
+                );
+              },
+            ),
           ]),
         ),
       ),
@@ -57,6 +68,12 @@ class _sign_up extends State<sign_up> {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: mail_add, password: pass);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         print('メールアドレスが無効です');
