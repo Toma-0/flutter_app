@@ -1,16 +1,29 @@
 # study_with_front
 
-A new Flutter project.
+今後の手順
+1.ブランチを切る
+2.ログイン画面を制作する
 
-## Getting Started
+(ブランチを切る)
+2.ホーム画面を制作する
 
-This project is a starting point for a Flutter application.
+(ブランチを切る)
+3.キーボードの音声を流せるようにする
 
-A few resources to get you started if this is your first Flutter project:
+(ブランチを切る)
+4.キーボードの音声と幾つかの音声を組み合わせれるようにする。
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+(ブランチを切る)
+5.アニメーションをつける(タイマーを導入する。)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+(ブランチを切る)
+6.sttを導入する
+
+（ブランチを切る)
+7.スマートリプライを導入する
+
+(ブランチを切る)
+8.ttsを導入する
+
+(ブランチを切る)
+9.アップルウォッチで使用できるようにする
