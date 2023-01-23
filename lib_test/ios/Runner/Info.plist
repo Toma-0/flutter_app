@@ -23,6 +23,10 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>”アプリが音声認識を使用する理由”</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>”アプリがマイクにアクセスする理由”</string>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
