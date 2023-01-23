@@ -34,13 +34,11 @@ class Logo extends StatefulWidget {
 }
 
 class _Logo extends State<Logo> {
-  //処理部分を作成する。今回作成する処理は3点である。
-  //ユーザーの現在のログイン状態を確認する
-  //数秒停止する
-  //ユーザーが向かうべきページに移行する。
+  Timer? timer;
 
   @override
-  void state_User() {//ユーザー状態と画面の遷移
+  void state_User() {
+    //ユーザー状態と画面の遷移
     FirebaseAuth.instance.idTokenChanges().listen((User? user) {
       //ユーザーがいるかどうかを問う
       if (user == null) {
@@ -63,9 +61,23 @@ class _Logo extends State<Logo> {
     });
   }
 
+  void loadtime() {
+    print("OK");
+    timer = Timer(const Duration(seconds: 2), () {
+      state_User(); //２秒後にユーザーの読み込みを行う。
+    });
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    timer?.cancel();
+  }
+
   Widget build(BuildContext context) {
+    loadtime();
     return Scaffold(
-      body: Center(),
+      body: Center(child: Text("とりま")),
     );
   }
 }
