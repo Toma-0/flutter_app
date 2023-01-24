@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 import "sign_up.dart";
+import 'config/size_config.dart';
 
 //新しくユーザーを作成する画面
 
@@ -56,38 +57,67 @@ class _sign_in extends State<sign_in> {
   }
 
   Widget build(BuildContext context) {
+    Size().init(context);
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(children: [
-            TextField(onChanged: (text) {
-              setState(() {
-                email = text;
-              });
-            }),
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color:Color.fromARGB(255, 118, 161, 184),
+            width: Size.w! * 1,),
+          ),
+          width: Size.w! * 70,
+          child:Padding(padding: EdgeInsets.all(20),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
             TextField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.mail),
+                  labelText: "メールアドレス",
+                ),
+                onChanged: (text) {
+                  setState(() {
+                    email = text;
+                  });
+                }),
+            TextField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.key),
+                  labelText: "パスワード",
+                ),
+                style: TextStyle(color: Color.fromARGB(255, 62, 58, 58)),
                 onChanged: (text) {
                   setState(() {
                     pass = text;
                   });
                 },
                 obscureText: true),
-            // Flutter1.22以降のみ
-            ElevatedButton(
-              child: const Text('Button'),
+            Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
+            OutlinedButton(
+              child: const Text("ログイン"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 118, 161, 184)),
+              ),
               onPressed: () {
                 mail_pass(email, pass);
               },
             ),
-            ElevatedButton(
-              child: const Text('Button'),
+            TextButton(
+              child: const Text('新規登録の方はこちらから'),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 62, 58, 58)),
+              ),
               onPressed: () {
-                MaterialPageRoute(
-                  builder: (context) => Sign_up(),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Sign_up(),
+                  ),
                 );
               },
             ),
           ]),
+          ),
         ),
       ),
     );

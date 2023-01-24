@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -6,14 +7,19 @@ import 'firebase_options.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'sign_up.dart';
+import 'sin_in.dart';
 import 'home.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 //アプリの大まかな構成。
@@ -46,7 +52,7 @@ class _Logo extends State<Logo> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Sign_up(),
+            builder: (context) => Sign_in(),
           ),
         );
       } else {
@@ -69,12 +75,14 @@ class _Logo extends State<Logo> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     timer?.cancel();
   }
 
   Widget build(BuildContext context) {
+    double fw = MediaQuery.of(context).size.width;
+    double fh = MediaQuery.of(context).size.height;
     loadtime();
     return Scaffold(
       body: Center(child: Text("とりま")),
