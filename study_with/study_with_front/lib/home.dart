@@ -40,9 +40,8 @@ class _home extends State<home> {
     }
 
     void timer() {
-      Timer.periodic(
-          const Duration(hours: 1) //10minuteに変更必須
-          , (timer) {
+
+      change_img() {
         int hour = time();
         var random = math.Random();
         if (0 <= hour && hour <= 5) {
@@ -71,6 +70,14 @@ class _home extends State<home> {
             tmp = Image.asset('img/yoru_$index.png');
           });
         }
+      }
+
+      change_img();
+
+      Timer.periodic(
+          const Duration(hours: 1) //10minuteに変更必須
+          , (timer) {
+        change_img();
       });
     }
 
