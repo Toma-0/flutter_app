@@ -75,7 +75,7 @@ class _sign_up extends State<sign_up> {
               },
             ),
             TextButton(
-              child: const Text('アカウントをお持ちの方はこちらから'),
+              child: const Text('新規登録の方はこちらから'),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
                     Color.fromARGB(255, 62, 58, 58)),
