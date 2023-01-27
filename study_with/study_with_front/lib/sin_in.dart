@@ -92,7 +92,7 @@ class _sign_in extends State<sign_in> {
                 obscureText: true),
             Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
             OutlinedButton(
-              child: const Text("ログイン"),
+              child: const Text("新規作成"),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
                     Color.fromARGB(255, 118, 161, 184)),
@@ -102,7 +102,7 @@ class _sign_in extends State<sign_in> {
               },
             ),
             TextButton(
-              child: const Text('新規登録の方はこちらから'),
+              child: const Text('アカウントをお持ちの方はこちらから'),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
                     Color.fromARGB(255, 62, 58, 58)),
