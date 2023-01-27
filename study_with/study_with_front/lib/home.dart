@@ -30,7 +30,7 @@ class home extends StatefulWidget {
 }
 
 class _home extends State<home> {
-Image tmp = Image.asset("img/shinya_1.png");
+  Image tmp = Image.asset("img/sinya_1.png");
 
   Widget build(BuildContext context) {
     time() {
@@ -39,45 +39,50 @@ Image tmp = Image.asset("img/shinya_1.png");
       return hour;
     }
 
-
-    time_img() {
+    void timer() {
       Timer.periodic(
-          const Duration(seconds: 1) //10minuteに変更必須
+          const Duration(hours: 1) //10minuteに変更必須
           , (timer) {
-      int hour = time();
-      var random = math.Random();
-      if (0 <= hour && hour <= 5) {
-        int index = random.nextInt(3);
-      setState(() {
-        tmp = Image.asset('img/sinya_$index.png');
-      });
-      } else if (6 <= hour && hour <= 11) {
-        int index = random.nextInt(7);
-        setState(() {
-        tmp = Image.asset('img/asa_$index.png');
-      });
-      } else if (12 <= hour && hour <= 14) {
-        int index = random.nextInt(7);
-        setState(() {
-        tmp = Image.asset('img/hiru_$index.png');
-      });
-      } else if (15 <= hour && hour <= 18) {
-        int index = random.nextInt(8);
-        setState(() {
-        tmp = Image.asset('img/yuu_$index.png');
-      });
-      } else if (19 <= hour && hour <= 23) {
-        int index = random.nextInt(7);
-        setState(() {
-        tmp = Image.asset('img/yoru_$index.png');
-      });
-      }
+        int hour = time();
+        var random = math.Random();
+        if (0 <= hour && hour <= 5) {
+          int index = random.nextInt(3);
+          setState(() {
+            tmp = Image.asset('img/sinya_$index.png');
+          });
+        } else if (6 <= hour && hour <= 11) {
+          int index = random.nextInt(7);
+          setState(() {
+            tmp = Image.asset('img/asa_$index.png');
+          });
+        } else if (12 <= hour && hour <= 14) {
+          int index = random.nextInt(7);
+          setState(() {
+            tmp = Image.asset('img/hiru_$index.png');
+          });
+        } else if (15 <= hour && hour <= 18) {
+          int index = random.nextInt(8);
+          setState(() {
+            tmp = Image.asset('img/yuu_$index.png');
+          });
+        } else if (19 <= hour && hour <= 23) {
+          int index = random.nextInt(7);
+          setState(() {
+            tmp = Image.asset('img/yoru_$index.png');
+          });
+        }
       });
     }
 
+    img() {
+      timer();
+      return tmp;
+    }
+
     return Scaffold(
-      body: Center(child:Container(
-        child: tmp,
+      body: Center(
+          child: Container(
+        child: img(),
       )),
     );
   }
