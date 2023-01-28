@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 import "sin_in.dart";
+import "timer.dart";
 
 import 'config/size_config.dart';
 import 'config/color_config.dart';
@@ -68,8 +69,8 @@ class _home extends State<home> {
   }
 
   void timer() {
-
-    change_img() {//時間ごとにどの画像を使用するかの決定
+    change_img() {
+      //時間ごとにどの画像を使用するかの決定
       var random = math.Random();
       if (0 <= hour && hour <= 5) {
         int index = random.nextInt(3);
@@ -100,7 +101,7 @@ class _home extends State<home> {
     }
 
     if (tmp_hour != hour) {
-      change_img();//画像の変更
+      change_img(); //画像の変更
       tmp_hour = hour;
     }
   }
@@ -117,19 +118,61 @@ class _home extends State<home> {
   }
 
   Widget build(BuildContext context) {
+    Size().init(context);
     return Scaffold(
-        body: Row(children: [
-      Column(
-        children: [
-          Text(clock_now()),
-        ],
-      ),
-      Container(
-        child: Center(
+      body: Stack(children: [
+        Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                    padding:
+                        EdgeInsets.only(top: Size.h! * 2, left: Size.w! * 4)),
+                Text(
+                  clock_now(),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 62, 58, 58),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Padding(
+                    padding:
+                        EdgeInsets.only(top: Size.h! * 2, left: Size.w! * 4)),
+                Text(
+                  "ユーザー名", //firebaseで後ほど
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 62, 58, 58),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        Container(
+          child: Center(
             child: Container(
-          child: img(),
-        )),
-      )
-    ]));
+                child: GestureDetector(
+              onTap: () {
+                print("Tap");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Time(),
+                  ),
+                );
+              },
+              child: img(),
+            )),
+          ),
+        ),
+      ]),
+    );
   }
 }
