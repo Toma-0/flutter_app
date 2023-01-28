@@ -30,66 +30,88 @@ class sign_up extends StatefulWidget {
 class _sign_up extends State<sign_up> {
   String email = "";
   String pass = "";
+  bool view =false;
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color:Color.fromARGB(255, 118, 161, 184),
-            width: Size.w! * 1,),
-          ),
-          width: Size.w! * 70,
-          child:Padding(padding: EdgeInsets.all(20),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            TextField(
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.mail),
-                  labelText: "メールアドレス",
-                ),
-                onChanged: (text) {
-                  setState(() {
-                    email = text;
-                  });
-                }),
-            TextField(
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.key),
-                  labelText: "パスワード",
-                ),
-                style: TextStyle(color: colors().sub),
-                onChanged: (text) {
-                  setState(() {
-                    pass = text;
-                  });
-                },
-                obscureText: true),
-            Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
-            OutlinedButton(
-              child: const Text("ログイン"),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 118, 161, 184)),
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color.fromARGB(255, 118, 161, 184),
+                width: Size.w! * 1,
               ),
-              onPressed: () {
-                mail_pass(email, pass);
-              },
             ),
-            TextButton(
-              child: const Text('新規登録の方はこちらから'),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 62, 58, 58)),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Sign_in(),
+            width: Size.w! * 70,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                TextField(
+                  autofocus: true,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.mail),
+                      labelText: "メールアドレス",
+                    ),
+                    onChanged: (text) {
+                      email = text;
+                    }),
+                TextField(
+                  decoration:  InputDecoration(
+                    icon: Icon(Icons.key),
+                    labelText: "パスワード",
+                    
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                          view ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                         view = !view;
+                        });
+                      },
+                    ),
+                    
                   ),
-                );
-              },
+                  
+                  style: TextStyle(color: Color.fromARGB(255, 62, 58, 58)),
+                  onChanged: (text) {
+                    setState(() {
+                      pass = text;
+                    });
+                  },
+                  obscureText: view
+                ),
+                Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
+                OutlinedButton(
+                  child: const Text("ログイン"),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 118, 161, 184)),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      email;
+                      pass;
+                    });
+                    mail_pass(email, pass);
+                  },
+                ),
+                TextButton(
+                  child: const Text('新規登録の方はこちらから'),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 62, 58, 58)),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Sign_in(),
+                      ),
+                    );
+                  },
+                ),
+              ]),
             ),
-          ]),
           ),
         ),
       ),
