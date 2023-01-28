@@ -53,7 +53,7 @@ class _Logo extends State<Logo> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Sign_in(),
+            builder: (context) => Home(),//デバック時のみ
           ),
         );
       } else {
