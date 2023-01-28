@@ -168,6 +168,16 @@ class _home extends State<home> {
                   ),
                 );
               },
+              onLongPress: () {
+                print("press");
+                FirebaseAuth.instance.signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Sign_in(),
+                  ),
+                );
+              },
               child: img(),
             )),
           ),

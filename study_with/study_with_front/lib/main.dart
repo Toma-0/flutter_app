@@ -12,6 +12,7 @@ import 'home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -68,8 +69,7 @@ class _Logo extends State<Logo> {
   }
 
   void loadtime() {
-    print("OK");
-    timer = Timer(const Duration(seconds: 2), () {
+    setState(() {
       state_User(); //２秒後にユーザーの読み込みを行う。
     });
   }
