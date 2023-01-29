@@ -7,9 +7,11 @@ import 'firebase_options.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:speech_to_text/speech_to_text.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
 
 import 'home.dart';
 
@@ -39,7 +41,7 @@ class _time extends State<time> {
   Image tmp = Image.asset("img/study_0.png");
 
   var now = DateTime.now();
-
+  //タイマー
   int tmp_hour = 12;
 
   int day = 0;
@@ -55,72 +57,6 @@ class _time extends State<time> {
 
   int tmp_second = 0;
   bool study = true;
-
-  final player = AudioPlayer();
-  SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
-  String lastError = '';
-  String lastStatus = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _initSpeech();
-  }
-
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    _speechToText.listen(onResult: _onSpeechResult);
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    print("off");
-    _speechToText.stop();
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-    });
-  }
-/*
-  void errorListener(SpeechRecognitionError error) {
-    setState(() {
-      lastError = '${error.errorMsg} - ${error.permanent}';
-    });
-  }
-*/
-  void statusListener(String status) {
-    setState(() {
-      lastStatus = '$status';
-    });
-  }
-
-  void bgm_study() async {
-    final duration = await player.setAsset('bgm/PC-Keyboard03-01(Mid).mp3');
-    player.setSpeed(0.8);
-    player.setVolume(0.2);
-    player.play();
-  }
-
-  void bgm_Stop() async {
-    player.stop();
-  }
 
   study_time() {
     Timer.periodic(
@@ -212,6 +148,124 @@ class _time extends State<time> {
     return tmp;
   }
 
+  //オーディオ
+  final se_keyboard = AudioPlayer();
+  final se_car = AudioPlayer();
+ 
+    void bgm_study() async {
+    final duration =
+        await se_keyboard.setAsset('bgm/PC-Keyboard03-01(Mid).mp3');
+    se_keyboard.setSpeed(0.8);
+    se_keyboard.setVolume(0.2);
+    se_keyboard.play();
+
+    final duration1 = await se_car.setAsset('bgm/car_road1.mp3');
+    se_car.setSpeed(1);
+    se_car.setVolume(0.05);
+    se_car.play();
+  }
+
+  void bgm_Stop() async {
+    se_keyboard.stop();
+  }
+
+  //stt tss
+   var random = math.Random();
+  FlutterTts flutterTts = FlutterTts();
+  List text = ["うん", "ほう", "ふむ", "なるほど", "へぇ"];
+
+  SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
+  String lastError = '';
+  String lastStatus = '';
+  String tmp_word ="";
+
+@override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  /// Each time to start a speech recognition session
+  void _startListening() async {
+    _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  /// Manually stop the active speech recognition session
+  /// Note that there are also timeouts that each platform enforces
+  /// and the SpeechToText plugin supports setting timeouts on the
+  /// listen method.
+  void _stopListening() async {
+    print("off");
+    _speechToText.stop();
+    setState(() {});
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords;
+    });
+     if(tmp_word!= _lastWords){
+        _speak();
+      }
+  }
+/*
+  void errorListener(SpeechRecognitionError error) {
+    setState(() {
+      lastError = '${error.errorMsg} - ${error.permanent}';
+    });
+  }
+*/
+  void statusListener(String status) {
+    setState(() {
+      lastStatus = '$status';
+    });
+  }
+
+  // 読み上げ用
+
+  tmpText() {
+    int index = random.nextInt(text.length);
+    return text[index];
+  }
+
+  Future<void> _speak() async {
+    await flutterTts.setLanguage("ja-JP"); // 言語
+    await flutterTts.setSpeechRate(0.9); // 速度
+    await flutterTts.setVolume(0.5); // 音量
+    await flutterTts.setPitch(1.5); // ピッチ
+    await flutterTts.speak(tmpText()); //読み上げ
+  }
+
+  // 停止用
+  Future<void> _stop() async {
+    await flutterTts.stop();
+  }
+
+  Widget study_word(){
+    return Stack(
+      children:[
+        Text(
+          tmpText(),
+        ),
+        Container(
+          child:Image.asset("img/e0100_0.png"),
+        ),
+
+      ]
+    );
+  }
+
   Widget build(BuildContext context) {
     if (study) {
       bgm_study();
@@ -267,6 +321,7 @@ class _time extends State<time> {
               onLongPress: () {
                 print("press");
                 bgm_Stop();
+                se_car.stop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -274,11 +329,19 @@ class _time extends State<time> {
                   ),
                 );
               },
-              child: img(),
+              child: study_word(),
             )),
           ),
         ),
+        
       ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed:
+            // If not yet listening for speech start, otherwise stop
+            _speechToText.isNotListening ? _startListening : _stopListening,
+        tooltip: 'Listen',
+        child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+      ),
     );
   }
 }

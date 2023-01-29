@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import "sin_in.dart";
-import "test.dart";
+import "timer.dart";
 
 import 'config/size_config.dart';
 import 'config/color_config.dart';

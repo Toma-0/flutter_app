@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'dart:math' as math;
 
+// main関数、MyApp、MyHomePageはデフォルトから変更がないため省略
 class Time extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,13 +21,17 @@ class time extends StatefulWidget {
 }
 
 class _time extends State<time> {
+  var random = math.Random();
+  FlutterTts flutterTts = FlutterTts();
+  List text = ["うん", "ほう", "ふむ", "なるほど", "へぇ"];
+
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
   String lastError = '';
   String lastStatus = '';
-
-  @override
+  String tmp ="";
+ @override
   void initState() {
     super.initState();
     _initSpeech();
@@ -58,6 +65,9 @@ class _time extends State<time> {
     setState(() {
       _lastWords = result.recognizedWords;
     });
+     if(tmp!= _lastWords){
+        _speak();
+      }
   }
 /*
   void errorListener(SpeechRecognitionError error) {
@@ -72,57 +82,53 @@ class _time extends State<time> {
     });
   }
 
+  // 読み上げ用
+
+  tmpText() {
+    int index = random.nextInt(text.length);
+    return text[index];
+  }
+
+  Future<void> _speak() async {
+    await flutterTts.setLanguage("ja-JP"); // 言語
+    await flutterTts.setSpeechRate(0.9); // 速度
+    await flutterTts.setVolume(0.5); // 音量
+    await flutterTts.setPitch(1.5); // ピッチ
+    await flutterTts.speak(tmpText()); //読み上げ
+  }
+
+  // 停止用
+  Future<void> _stop() async {
+    await flutterTts.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Speech Demo'),
+        title: Text(
+          " ",
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Recognized words:',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  // If listening is active show the recognized words
-                  _speechToText.isListening
-                      ? '$_lastWords'
-                      // If listening isn't active but could be tell the user
-                      // how to start it, otherwise indicate that speech
-                      // recognition is not yet ready or not supported on
-                      // the target device
-                      : _speechEnabled
-                          ? 'Tap the microphone to start listening...'
-                          : 'Speech not available',
-                ),
-              ),
+            Text(
+              tmpText(),
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            // If not yet listening for speech start, otherwise stop
-            _speechToText.isNotListening ? _startListening : _stopListening,
+      floatingActionButton:
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+            onPressed: _speechToText.isNotListening ? _startListening : _stopListening,
         tooltip: 'Listen',
         child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
-      ),
+        ),
+      ]),
     );
   }
 }
-
-/*
-マイクの部分に使用するもの
-マイクのオンオフ
-聞く→文字起こす→止めるを10秒間隔で繰り返す？？
-
-*/
