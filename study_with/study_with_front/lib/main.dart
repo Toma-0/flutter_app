@@ -61,7 +61,7 @@ class _Logo extends State<Logo> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Home(),
+            builder: (context) => Sign_in(),
           ),
         );
       }

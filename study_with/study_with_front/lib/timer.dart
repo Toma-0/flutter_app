@@ -172,7 +172,7 @@ class _time extends State<time> {
   //stt tss
    var random = math.Random();
   FlutterTts flutterTts = FlutterTts();
-  List text = ["うん", "ほう", "ふむ", "なるほど", "へぇ"];
+  List text = ["うん", "ほう", "ふむ", "はぁ", "へぇ","ほん","あぁ",];
 
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
@@ -252,35 +252,44 @@ class _time extends State<time> {
     await flutterTts.stop();
   }
 
-  Widget study_word(){
-    return Stack(
-      children:[
-        Text(
-          tmpText(),
-        ),
-        Container(
-          child:Image.asset("img/e0100_0.png"),
-        ),
-
-      ]
-    );
-  }
+ 
 
   Widget build(BuildContext context) {
     if (study) {
       bgm_study();
     } else if (!study) {
       bgm_Stop();
+      _stop();
     }
 
     Size().init(context);
     return Scaffold(
+      backgroundColor:Color.fromARGB(255, 223, 226, 234),
       body: Stack(children: [
         Column(
           children: [
             Row(
               children: [
+                Row(
+              children: [
                 Padding(
+                    padding:
+                        EdgeInsets.only(top: Size.h! * 10, left: Size.w! * 4)),
+                Text(
+                  study_now(), //firebaseで後ほど
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Color.fromARGB(255, 62, 58, 58),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+              ],
+            ),
+            Row(
+              children: [
+               Padding(
                     padding:
                         EdgeInsets.only(top: Size.h! * 2, left: Size.w! * 4)),
                 Text(
@@ -293,21 +302,7 @@ class _time extends State<time> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Padding(
-                    padding:
-                        EdgeInsets.only(top: Size.h! * 2, left: Size.w! * 4)),
-                Text(
-                  study_now(), //firebaseで後ほど
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 62, 58, 58),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            
           ],
         ),
         Container(
@@ -321,6 +316,7 @@ class _time extends State<time> {
               onLongPress: () {
                 print("press");
                 bgm_Stop();
+                flutterTts.stop();
                 se_car.stop();
                 Navigator.push(
                   context,
@@ -329,13 +325,13 @@ class _time extends State<time> {
                   ),
                 );
               },
-              child: study_word(),
+              child: img(),
             )),
           ),
         ),
-        
       ]),
       floatingActionButton: FloatingActionButton(
+        backgroundColor:Color.fromARGB(255, 118, 161, 184),
         onPressed:
             // If not yet listening for speech start, otherwise stop
             _speechToText.isNotListening ? _startListening : _stopListening,
