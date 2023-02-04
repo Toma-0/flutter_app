@@ -29,6 +29,13 @@
             {
               "client_id": "355893424846-rd4a76tiq42mssob79o1nf9ieoadpbfv.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "355893424846-i6v24suj3dba8rjbi110iamjac0g9n99.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.oshichokinFront"
+              }
             }
           ]
         }
