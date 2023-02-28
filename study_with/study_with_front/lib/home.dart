@@ -7,7 +7,6 @@ import 'firebase_options.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'home.dart';
 import "sin_in.dart";
 import "timer.dart";
 
@@ -120,6 +119,7 @@ class _home extends State<home> {
   Widget build(BuildContext context) {
     Size().init(context);
     return Scaffold(
+      backgroundColor:Color.fromARGB(255, 223, 226, 234),
       body: Stack(children: [
         Column(
           children: [
@@ -127,11 +127,11 @@ class _home extends State<home> {
               children: [
                 Padding(
                     padding:
-                        EdgeInsets.only(top: Size.h! * 2, left: Size.w! * 4)),
+                        EdgeInsets.only(top: Size.h! * 10, left: Size.w! * 4)),
                 Text(
                   clock_now(),
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize:40,
                     color: Color.fromARGB(255, 62, 58, 58),
                     fontWeight: FontWeight.bold,
                   ),

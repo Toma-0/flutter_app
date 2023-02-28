@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/toma/flutter
-FLUTTER_APPLICATION_PATH=/Users/toma/Desktop/実験ファイル/eyedec_app/photoWithOshi/photowithoshi_front
+FLUTTER_ROOT=/Users/toma/developer/flutter
+FLUTTER_APPLICATION_PATH=/Users/toma/実験ファイル/flutter_app/photoWithOshi/photowithoshi_front
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build

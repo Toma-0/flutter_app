@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>音声認識を利用する理由を記載<string>
+	<string>????</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>マイクを利用する理由を記載</string>
+	<string>????</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
