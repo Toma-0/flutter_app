@@ -41,6 +41,7 @@ dependencies:
   fl_chart: ^0.60.0
   sliding_up_panel: ^2.0.0+1
   cloud_firestore: ^4.4.3
+  flutter_riverpod: ^2.3.0
 
 dev_dependencies:
   flutter_test:
