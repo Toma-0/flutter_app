@@ -72,7 +72,8 @@ class _sign_in extends State<sign_in> {
 
   Widget build(BuildContext context) {
     Size().init(context);
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -148,6 +149,7 @@ class _sign_in extends State<sign_in> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

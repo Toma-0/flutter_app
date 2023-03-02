@@ -1,17 +1,18 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oshichokin_front/home.dart';
 
 class UserInformation {
-  static String? userName;
-  static int? goal_money;
-  static int? sum_money;
-  static List<dynamic>? oshi_list;
-  
-  void userInfo() {
+  static String userName = "ffffff";
+  static int goal_money = 0;
+  static int sum_money = 0;
+  static List<dynamic> oshi_list = [];
+
+  void userInfo(Wref) {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         var user_id = user.uid;
@@ -26,6 +27,13 @@ class UserInformation {
             goal_money = ref.get("goal_money");
             sum_money = ref.get("sum_money");
             oshi_list = ref.get("oshi_name") as List<dynamic>;
+
+          
+              Wref.read(userNameProvider.notifier).state = userName;
+              Wref.read(oshiListProvider.notifier).state = oshi_list;
+              Wref.read(goalMoneyProvider.notifier).state = goal_money;
+              Wref.read(sumMoneyProvider.notifier).state = sum_money;
+            
           },
           onError: (e) => print("Error getting document: $e"),
         );

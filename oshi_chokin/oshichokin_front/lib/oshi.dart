@@ -1,72 +1,49 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:oshichokin_front/home.dart';
 import 'config/size_config.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'setting.dart';
-import "oshi.dart";
 
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
 import 'info/user_info.dart';
 import 'info/oshi_info.dart';
 
-final userNameProvider = StateProvider((ref) => 'Hello World');
+import 'setting.dart';
 
-final goalMoneyProvider = StateProvider((ref) => 0);
+class Oshi extends ConsumerStatefulWidget {
+  final int i;
+  // コンストラクタ
+  const Oshi({Key? key, required this.i}) : super(key: key);
 
-final sumMoneyProvider = StateProvider((ref) => 0);
-
-final oshiListProvider = StateProvider((ref) => []);
-
-final oshiColorProvider = StateProvider((ref) => []);
-
-final oshiIconNameProvider = StateProvider((ref) => []);
-
-final oshiGoalMoneyProvider = StateProvider((ref) => []);
-
-final oshiSumMoneyProvider = StateProvider((ref) => []);
-
-class Home extends ConsumerStatefulWidget {
   @override
-  _ATMState createState() => _ATMState();
+  _Oshi createState() => _Oshi();
 }
 
-class _ATMState extends ConsumerState<Home>
-    with SingleTickerProviderStateMixin {
+class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
+  late int index;
   bool tap = false;
 
   // `ref.read` 関数 == Reader クラス
-  IconData? oshiIcon = Icons.settings;
   double x = Size.w! * 25;
   double y = Size.h! * 25;
+  IconData? oshiIcon = Icons.settings;
+  void initState() {
+    super.initState();
+    index = widget.i;
+  }
 
   late AnimationController waveController = AnimationController(
     duration: const Duration(seconds: 10), // アニメーションの間隔を3秒に設定
     vsync: this, // おきまり
   )..repeat();
 
-  // AnimationControllerの宣言
-
-  @override
   Widget build(BuildContext context) {
-    final userName = ref.watch(userNameProvider).toString();
-    final oshiColor = ref.watch(oshiColorProvider).toString();
-    final oshiIconName = ref.watch(oshiIconNameProvider).toString();
-
-    UserInformation().userInfo(ref);
-
-    Size().init(context);
-    setState(() {
-      x = Size.w! * 25;
-      y = Size.h! * 25;
-    });
+    List oshiList = ref.read(oshiListProvider);
 
     return MaterialApp(
       home: Scaffold(
@@ -81,7 +58,7 @@ class _ATMState extends ConsumerState<Home>
 
           leading: Text(
             //firebaseから持ってくる
-            userName,
+            oshiList[index],
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
@@ -130,10 +107,18 @@ class _ATMState extends ConsumerState<Home>
   //タップすると表示するものを変化するウィジェットを作成
   @override
   tapWidget() {
-    final userName = ref.watch(userNameProvider).toString();
-    final goal_money = ref.watch(goalMoneyProvider);
-    final sum_money = ref.watch(sumMoneyProvider);
+    List goalList = ref.read(oshiGoalMoneyProvider);
+    List sumList = ref.read(oshiSumMoneyProvider);
+
+    int goal = goalList[index];
+    int sum = sumList[index];
     final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
+
+    Size().init(context);
+    setState(() {
+      x = Size.w! * 25;
+      y = Size.h! * 25;
+    });
 
     if (tap) {
       return Align(
@@ -141,7 +126,7 @@ class _ATMState extends ConsumerState<Home>
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
 
-            donuts().chart(sum_money, goal_money, x, y),
+            donuts().chart(sum, goal, x, y),
             makeWave().wave(waveController, x, y, ref),
 
             Container(
@@ -152,7 +137,7 @@ class _ATMState extends ConsumerState<Home>
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (var i = 0; i < oshi_list.length; i++) oshi_button(i),
+                    oshi_button(),
                   ],
                 ),
               ),
@@ -163,38 +148,31 @@ class _ATMState extends ConsumerState<Home>
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
-            donuts().chart(sum_money, goal_money, x, y),
+            donuts().chart(sum, goal, x, y),
             makeWave().wave(waveController, x, y, ref),
           ]));
     }
   }
 
   //推しごとのボタンの作成
-  oshi_button(i) {
-    final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
-    OshiInformation().oshiInfo(oshi_list, ref);
+  oshi_button() {
+    List colorList = ref.read(oshiColorProvider);
+    List iconList = ref.read(oshiIconNameProvider);
+    String color = "FF" + colorList[index];
+    String icon = iconList[index];
+    List oshiList = ref.read(oshiListProvider);
 
-    final oshiColor = ref.read(oshiColorProvider);
-    final iconName = ref.read(oshiIconNameProvider);
-
-    String color = "FF" + oshiColor[i];
-    
-    IconSetting(iconName[i]);
+    IconSetting(icon);
     return Stack(children: [
       IconButton(
         iconSize: 100,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Oshi(i:i)),
-          );
-        },
+        onPressed: () {},
         icon: Icon(
           oshiIcon,
           color: Color(int.parse(color, radix: 16)),
         ),
       ),
-      Text(oshi_list[i])
+      Text(oshiList[index])
     ]);
   }
 

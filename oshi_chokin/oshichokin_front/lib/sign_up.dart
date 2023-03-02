@@ -33,7 +33,8 @@ class _sign_up extends State<sign_up> {
   bool view = false;
 
   Widget build(BuildContext context) {
-    return Scaffold(
+   return MaterialApp(
+      home:Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -111,6 +112,7 @@ class _sign_up extends State<sign_up> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

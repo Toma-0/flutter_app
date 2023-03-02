@@ -9,21 +9,27 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'home.dart';
 import 'sign_in.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(home: ATM()));
+  runApp(
+    ProviderScope(
+        child: MaterialApp(
+      home:MyApp(),
+    )),
+  );
 }
 
-class ATM extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  _ATMState createState() => _ATMState();
+  _MyApp createState() => _MyApp();
 }
 
-class _ATMState extends State<ATM> with SingleTickerProviderStateMixin {
+class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -40,7 +46,7 @@ class _ATMState extends State<ATM> with SingleTickerProviderStateMixin {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>Home(),
+            builder: (context) => Home(),
           ),
         );
       }
@@ -54,8 +60,10 @@ class _ATMState extends State<ATM> with SingleTickerProviderStateMixin {
     double y = Size.h! * 25;
     dispose();
 
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      ),
     );
   }
 }

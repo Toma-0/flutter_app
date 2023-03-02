@@ -5,7 +5,8 @@ import 'button.dart';
 class ChokinPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -49,6 +50,7 @@ class ChokinPage extends StatelessWidget {
         ]),
         height: double.infinity,
         color: Colors.white,
+      ),
       ),
     );
   }
