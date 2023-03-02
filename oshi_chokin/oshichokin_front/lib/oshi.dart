@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:oshichokin_front/home.dart';
 import 'config/size_config.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
 import 'info/user_info.dart';
 import 'info/oshi_info.dart';
-
+import 'info/oshi_images.dart';
 import 'setting.dart';
 
 class Oshi extends ConsumerStatefulWidget {
@@ -27,11 +25,13 @@ class Oshi extends ConsumerStatefulWidget {
 class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
   late int index;
   bool tap = false;
+  late String user_id = "test";
 
   // `ref.read` 関数 == Reader クラス
   double x = Size.w! * 25;
   double y = Size.h! * 25;
   IconData? oshiIcon = Icons.settings;
+
   void initState() {
     super.initState();
     index = widget.i;
@@ -109,10 +109,16 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
   tapWidget() {
     List goalList = ref.read(oshiGoalMoneyProvider);
     List sumList = ref.read(oshiSumMoneyProvider);
+    List imageList = ref.read(oshiImageListProvider);
 
     int goal = goalList[index];
     int sum = sumList[index];
+    int number = imageList[index];
+    
     final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
+
+    imageSet().download(user_id, oshi_list[index]);
+    List<Widget> images = imageSet.images;
 
     Size().init(context);
     setState(() {
@@ -137,6 +143,12 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
+                    for (int i = 0; i < number; i++) images[i],
+                    IconButton(
+                        onPressed: () {
+                          imageSet().upload(oshi_list[index], user_id);
+                        },
+                        icon: Icon(Icons.image)),
                     oshi_button(),
                   ],
                 ),
