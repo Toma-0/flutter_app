@@ -12,6 +12,7 @@ class OshiInformation {
     List iconList = Wref.read(oshiIconNameProvider);
     List goalList = Wref.read(oshiGoalMoneyProvider);
     List sumList = Wref.read(oshiSumMoneyProvider);
+    List oshiImageList = Wref.read(oshiImageListProvider);
 
     for (int i = 0; i < list.length; i++) {
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -32,11 +33,15 @@ class OshiInformation {
               String icon = ref.get("icon");
               int goal = ref.get("goal_money");
               int sum = ref.get("sum_money");
+              int images = ref.get("imageNum");
+
+              print(images);
 
               colorList.add(color);
               iconList.add(icon);
               goalList.add(goal);
               sumList.add(sum);
+              oshiImageList.add(images);
 
               Wref.read(oshiColorProvider.notifier)
                   .update((state) => colorList);
@@ -45,7 +50,9 @@ class OshiInformation {
               Wref.read(oshiGoalMoneyProvider.notifier)
                   .update((state) => goalList);
               Wref.read(oshiSumMoneyProvider.notifier)
-                  .update((state) =>sumList);
+                  .update((state) => sumList);
+              Wref.read(oshiImageListProvider.notifier)
+                  .update((state) => oshiImageList);
             },
             onError: (e) => print("Error getting document: $e"),
           );

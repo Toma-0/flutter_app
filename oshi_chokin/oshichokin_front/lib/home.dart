@@ -33,6 +33,12 @@ final oshiGoalMoneyProvider = StateProvider((ref) => []);
 
 final oshiSumMoneyProvider = StateProvider((ref) => []);
 
+final oshiImageListProvider = StateProvider((ref) => []);
+
+//The following RangeError was thrown building Home(dirty, dependencies: [MediaQuery,
+//UncontrolledProviderScope], state: _ATMState#39565(ticker active)):
+//RangeError (index): Invalid value: Valid value range is empty: 0
+
 class Home extends ConsumerStatefulWidget {
   @override
   _ATMState createState() => _ATMState();
