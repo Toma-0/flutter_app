@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../config/size_config.dart';
 import 'dart:math' as math;
 import "../info/user_info.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WaveClipper extends CustomClipper<Path> {
   // 1
-  WaveClipper(this.context, this.waveControllerValue, this.offset) {
 
+  WaveClipper(this.context, this.waveControllerValue, this.offset) {
     final width = MediaQuery.of(context).size.width; // 画面の横幅
     final height = MediaQuery.of(context).size.height; // 画面の高さ
 
@@ -47,9 +48,16 @@ class WaveClipper extends CustomClipper<Path> {
       waveControllerValue != oldClipper.waveControllerValue;
 }
 
+high(ref) {
+  UserInformation().userInfo(ref);
+  List highList = [UserInformation.sum_money, UserInformation.goal_money];
+  return highList;
+}
+
 class makeWave {
   @override
-  wave(waveController, x, y) {
+  wave(waveController, x, y, ref) {
+    high(ref);
     return AnimatedBuilder(
       animation: waveController,
       builder: (context, child) => Stack(
@@ -57,7 +65,7 @@ class makeWave {
           ClipPath(
             child: Container(
               width: (Size.w! * (x - 60)) * 2,
-              height: Size.h! * y!,
+              height: Size.h! * y! * 10,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 255, 255, 255),
                 shape: BoxShape.circle,

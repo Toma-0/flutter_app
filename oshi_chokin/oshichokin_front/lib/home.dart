@@ -6,12 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'setting.dart';
-import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'info/user_info.dart';
+import "oshi.dart";
 
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
@@ -143,7 +142,7 @@ class _ATMState extends ConsumerState<Home>
             //firebaseから目標金額と貯金金額を持ってくる
 
             donuts().chart(sum_money, goal_money, x, y),
-            makeWave().wave(waveController, x, y),
+            makeWave().wave(waveController, x, y, ref),
 
             Container(
               width: 115,
@@ -165,7 +164,7 @@ class _ATMState extends ConsumerState<Home>
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
             donuts().chart(sum_money, goal_money, x, y),
-            makeWave().wave(waveController, x, y),
+            makeWave().wave(waveController, x, y, ref),
           ]));
     }
   }
@@ -179,11 +178,17 @@ class _ATMState extends ConsumerState<Home>
     final iconName = ref.read(oshiIconNameProvider);
 
     String color = "FF" + oshiColor[i];
+    
     IconSetting(iconName[i]);
     return Stack(children: [
       IconButton(
         iconSize: 100,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Oshi(i:i)),
+          );
+        },
         icon: Icon(
           oshiIcon,
           color: Color(int.parse(color, radix: 16)),
