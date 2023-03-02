@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../config/size_config.dart';
 import 'dart:math' as math;
+import "../info/user_info.dart";
 
 class WaveClipper extends CustomClipper<Path> {
   // 1
   WaveClipper(this.context, this.waveControllerValue, this.offset) {
+
     final width = MediaQuery.of(context).size.width; // 画面の横幅
     final height = MediaQuery.of(context).size.height; // 画面の高さ
 
@@ -14,10 +17,7 @@ class WaveClipper extends CustomClipper<Path> {
       coordinateList.add(
         Offset(
             i.toDouble() * 4, // X座標
-            math.sin(step * 2 * math.pi - offset) * 3 +
-                height * (1 - 7000 / 10000)
-            // Y座標,0.2の部分を変えて高さを変更する
-            ),
+            math.sin(step * 2 * math.pi - offset) * 3 + height * 0.3),
       );
     }
   }
@@ -49,8 +49,7 @@ class WaveClipper extends CustomClipper<Path> {
 
 class makeWave {
   @override
-  wave(waveController,x,y) {
-
+  wave(waveController, x, y) {
     return AnimatedBuilder(
       animation: waveController,
       builder: (context, child) => Stack(

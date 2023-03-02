@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class DentakuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -29,6 +30,7 @@ class DentakuPage extends StatelessWidget {
       body: Container(
         height: double.infinity,
         color: Colors.white,
+      ),
       ),
     );
   }

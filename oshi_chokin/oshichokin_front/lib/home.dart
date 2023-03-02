@@ -18,25 +18,35 @@ import 'parts/waveAnime.dart';
 import 'info/user_info.dart';
 import 'info/oshi_info.dart';
 
-class Home extends StatefulWidget {
+final userNameProvider = StateProvider((ref) => 'Hello World');
+
+final goalMoneyProvider = StateProvider((ref) => 0);
+
+final sumMoneyProvider = StateProvider((ref) => 0);
+
+final oshiListProvider = StateProvider((ref) => []);
+
+final oshiColorProvider = StateProvider((ref) => []);
+
+final oshiIconNameProvider = StateProvider((ref) => []);
+
+final oshiGoalMoneyProvider = StateProvider((ref) => []);
+
+final oshiSumMoneyProvider = StateProvider((ref) => []);
+
+class Home extends ConsumerStatefulWidget {
   @override
   _ATMState createState() => _ATMState();
 }
 
-class _ATMState extends State<Home> with SingleTickerProviderStateMixin {
+class _ATMState extends ConsumerState<Home>
+    with SingleTickerProviderStateMixin {
   bool tap = false;
-  String? userName = "テスト";
 
-  int? goal_money = 0;
-  int? sum_money = 0;
-
-  List<dynamic>? oshi_list = [];
-  late IconData? oshiIcon = Icons.settings;
+  // `ref.read` 関数 == Reader クラス
+  IconData? oshiIcon = Icons.settings;
   double x = Size.w! * 25;
   double y = Size.h! * 25;
-
-  String color = "000000";
-  String icon = "Home";
 
   late AnimationController waveController = AnimationController(
     duration: const Duration(seconds: 10), // アニメーションの間隔を3秒に設定
@@ -47,57 +57,60 @@ class _ATMState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    UserInformation().userInfo();
+    final userName = ref.watch(userNameProvider).toString();
+    final oshiColor = ref.watch(oshiColorProvider).toString();
+    final oshiIconName = ref.watch(oshiIconNameProvider).toString();
+
+    UserInformation().userInfo(ref);
+
     Size().init(context);
     setState(() {
       x = Size.w! * 25;
       y = Size.h! * 25;
-      userName = UserInformation.userName;
-      goal_money = UserInformation.goal_money;
-      sum_money = UserInformation.sum_money;
-      oshi_list = UserInformation.oshi_list;
     });
 
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        foregroundColor: Color.fromARGB(255, 62, 58, 58),
+    return MaterialApp(
+      home: Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        elevation: 0.0,
-        leadingWidth: Size.w! * 25,
+        appBar: AppBar(
+          foregroundColor: Color.fromARGB(255, 62, 58, 58),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          elevation: 0.0,
+          leadingWidth: Size.w! * 25,
 
-        //ユーザー名
+          //ユーザー名
 
-        leading: Text(
-          //firebaseから持ってくる
-          userName ?? '',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 15,
+          leading: Text(
+            //firebaseから持ってくる
+            userName,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 15,
+            ),
           ),
+
+          //設定
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingPage()),
+                );
+              },
+              icon: Icon(Icons.settings),
+            ),
+          ],
         ),
-
-        //設定
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingPage()),
-              );
+        body: GestureDetector(
+            onTap: () {
+              print(tap);
+              setState(() {
+                tap = !tap;
+              });
             },
-            icon: Icon(Icons.settings),
-          ),
-        ],
+            child: tapWidget()),
       ),
-      body: GestureDetector(
-          onTap: () {
-            print(tap);
-            setState(() {
-              tap = !tap;
-            });
-          },
-          child: tapWidget()),
     );
   }
 
@@ -118,25 +131,29 @@ class _ATMState extends State<Home> with SingleTickerProviderStateMixin {
   //タップすると表示するものを変化するウィジェットを作成
   @override
   tapWidget() {
+    final userName = ref.watch(userNameProvider).toString();
+    final goal_money = ref.watch(goalMoneyProvider);
+    final sum_money = ref.watch(sumMoneyProvider);
+    final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
+
     if (tap) {
       return Align(
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
 
-            donuts().chart(sum_money ?? 1, goal_money ?? 1, x, y),
+            donuts().chart(sum_money, goal_money, x, y),
             makeWave().wave(waveController, x, y),
 
             Container(
-              width: 100,
-              height: 100,
+              width: 115,
+              height: 115,
               alignment: AlignmentDirectional.center,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (var i = 0; i < oshi_list!.length; i++)
-                      oshi_button(oshi_list![i]),
+                    for (var i = 0; i < oshi_list.length; i++) oshi_button(i),
                   ],
                 ),
               ),
@@ -147,22 +164,22 @@ class _ATMState extends State<Home> with SingleTickerProviderStateMixin {
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
-            donuts().chart(sum_money ?? 1, goal_money ?? 1, x, y),
+            donuts().chart(sum_money, goal_money, x, y),
             makeWave().wave(waveController, x, y),
           ]));
     }
   }
 
   //推しごとのボタンの作成
-  oshi_button(oshi_name) {
-    OshiInformation().oshiInfo(oshi_name);
-    setState(() {
-      color = OshiInformation.color ?? "000000";
-      icon = OshiInformation.icon ?? "Home";
+  oshi_button(i) {
+    final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
+    OshiInformation().oshiInfo(oshi_list, ref);
 
-      print(oshi_name+""+color + ":" + icon);
-    });
+    final oshiColor = ref.read(oshiColorProvider);
+    final iconName = ref.read(oshiIconNameProvider);
 
+    String color = "FF" + oshiColor[i];
+    IconSetting(iconName[i]);
     return Stack(children: [
       IconButton(
         iconSize: 100,
@@ -172,7 +189,7 @@ class _ATMState extends State<Home> with SingleTickerProviderStateMixin {
           color: Color(int.parse(color, radix: 16)),
         ),
       ),
-      Text(oshi_name)
+      Text(oshi_list[i])
     ]);
   }
 
