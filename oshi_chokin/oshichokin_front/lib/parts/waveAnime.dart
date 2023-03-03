@@ -56,7 +56,7 @@ high(ref) {
 
 class makeWave {
   @override
-  wave(waveController, x, y, ref) {
+  wave(waveController, x, y, ref,color) {
     high(ref);
     return AnimatedBuilder(
       animation: waveController,
