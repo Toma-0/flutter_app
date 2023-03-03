@@ -4,7 +4,7 @@ import '../config/size_config.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class donuts{
-  chart(sum, goal, x, y) {
+  chart(sum, goal, x, y,Color chartcolor) {
   if (sum == 0) {
     sum = 1;
   }
@@ -23,15 +23,16 @@ class donuts{
           PieChartData(
             startDegreeOffset: 270,
             centerSpaceRadius: Size.w! * (x - 60),
-            centerSpaceColor: Color.fromARGB(255, 62, 58, 58),
+            centerSpaceColor: chartcolor,
             sections: [
               PieChartSectionData(
                 borderSide: BorderSide(width: 0),
-                color: Color.fromARGB(255, 62, 58, 58),
+                color: chartcolor,
                 value: sum / goal * 100, //ここの値をfirebaseで変更
                 radius: Size.w! * 2,
                 title: '',
               ),
+              
               PieChartSectionData(
                 borderSide: BorderSide(width: 0),
                 color: Colors.white,

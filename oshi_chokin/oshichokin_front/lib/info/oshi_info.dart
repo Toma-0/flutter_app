@@ -7,41 +7,68 @@ import 'package:flutter/widgets.dart';
 import 'package:oshichokin_front/home.dart';
 
 class OshiInformation {
-  void oshiInfo(list, Wref) {
+  void listSetting(list, content, i) {
+    if (list.length <= i) {
+      list.add(content);
+    } else {
+      list[i] = content;
+    }
+  }
+
+  oshiInfo(list, Wref) async {
     List colorList = Wref.read(oshiColorProvider);
     List iconList = Wref.read(oshiIconNameProvider);
     List goalList = Wref.read(oshiGoalMoneyProvider);
     List sumList = Wref.read(oshiSumMoneyProvider);
-    List oshiImageList = Wref.read(oshiImageListProvider);
+    Map<int, Map<int, List<String>>> oshiImageList =
+        Wref.read(oshiImageListProvider);
 
-    for (int i = 0; i < list.length; i++) {
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user != null) {
-          var user_id = user.uid;
-          var data;
-          var db = FirebaseFirestore.instance;
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user != null) {
+        var user_id = user.uid;
+        var db = FirebaseFirestore.instance;
+        final tasks = <Future>[];
 
+        for (int i = 0; i < list.length; i++) {
           final docRef = db
               .collection("users")
               .doc(user_id)
               .collection("oshi")
               .doc(list[i]);
 
-          docRef.get().then(
-            (ref) {
-              String color = "FF" + ref.get("color");
-              String icon = ref.get("icon");
-              int goal = ref.get("goal_money");
-              int sum = ref.get("sum_money");
-              int images = ref.get("imageNum");
+          final task = docRef.get().then((snapshot) {
+            if (snapshot.exists && snapshot.data() != null) {
 
-              print(images);
+              final ref = snapshot.data()!;
 
-              colorList.add(color);
-              iconList.add(icon);
-              goalList.add(goal);
-              sumList.add(sum);
-              oshiImageList.add(images);
+              final color = "FF" + ref['color'];
+              final icon = ref['icon'];
+              final goal = ref['goal_money'];
+              final sum = ref['sum_money'];
+
+              listSetting(colorList, color, i);
+              listSetting(iconList, icon, i);
+              listSetting(goalList, goal, i);
+              listSetting(sumList, sum, i);
+
+              final int num = ref['imageNum'];
+
+              List<String> urlData = [];
+              Map<int, List<String>> mapData = {};
+
+              for (int j = 0; j < num; j++) {
+                var imgDoc = docRef.collection("images").doc(j.toString());
+                imgDoc.get().then((ref) {
+                  String? tmp = ref.get("imageURL");
+                  if (tmp != null) {
+                    urlData.add(ref.get("imageURL") as String);
+                  }
+                });
+
+                mapData[j] = urlData;
+              }
+
+              oshiImageList[i] = mapData;
 
               Wref.read(oshiColorProvider.notifier)
                   .update((state) => colorList);
@@ -53,11 +80,14 @@ class OshiInformation {
                   .update((state) => sumList);
               Wref.read(oshiImageListProvider.notifier)
                   .update((state) => oshiImageList);
-            },
-            onError: (e) => print("Error getting document: $e"),
-          );
-        } else {}
-      });
-    }
+            } else {
+              print('そのデータは存在しません');
+            }
+          });
+
+          tasks.add(task);
+        }
+      }
+    });
   }
 }

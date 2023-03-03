@@ -1,43 +1,43 @@
+// mathパッケージのインポート
 import 'dart:math' as math;
+// materialパッケージのインポート
 import 'package:flutter/material.dart';
+// サイズ設定関連のファイルのインポート
 import 'config/size_config.dart';
 
+// Firebase関連のライブラリーのインポート
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 
+// Riverpod関連のライブラリーのインポート
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// 設定と推し関連のクラスのインポート
 import 'setting.dart';
 import "oshi.dart";
 
+// 描画のためのウィジェット関連のクラスのインポート
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
+
+// ユーザ情報の取得用クラスのインポート
 import 'info/user_info.dart';
 import 'info/oshi_info.dart';
 
+// 状態(State)管理
 final userNameProvider = StateProvider((ref) => 'Hello World');
-
 final goalMoneyProvider = StateProvider((ref) => 0);
-
 final sumMoneyProvider = StateProvider((ref) => 0);
-
 final oshiListProvider = StateProvider((ref) => []);
-
 final oshiColorProvider = StateProvider((ref) => []);
-
 final oshiIconNameProvider = StateProvider((ref) => []);
-
 final oshiGoalMoneyProvider = StateProvider((ref) => []);
-
 final oshiSumMoneyProvider = StateProvider((ref) => []);
+final oshiImageListProvider = StateProvider<Map <int, Map <int, List<String>>>>((ref) => {0:{}});
 
-final oshiImageListProvider = StateProvider((ref) => []);
-
-//The following RangeError was thrown building Home(dirty, dependencies: [MediaQuery,
-//UncontrolledProviderScope], state: _ATMState#39565(ticker active)):
-//RangeError (index): Invalid value: Valid value range is empty: 0
+final oshiIndexProvider = StateProvider((ref) => []);
 
 class Home extends ConsumerStatefulWidget {
   @override
@@ -46,28 +46,28 @@ class Home extends ConsumerStatefulWidget {
 
 class _ATMState extends ConsumerState<Home>
     with SingleTickerProviderStateMixin {
+  // タップ状態
   bool tap = false;
 
-  // `ref.read` 関数 == Reader クラス
+  // oshiのアイコンや位置
   IconData? oshiIcon = Icons.settings;
   double x = Size.w! * 25;
   double y = Size.h! * 25;
 
+  // Waveアニメーション制御用のコントローラー
   late AnimationController waveController = AnimationController(
-    duration: const Duration(seconds: 10), // アニメーションの間隔を3秒に設定
-    vsync: this, // おきまり
+    duration: const Duration(seconds: 10),
+    vsync: this,
   )..repeat();
-
-  // AnimationControllerの宣言
 
   @override
   Widget build(BuildContext context) {
+    // 状態(State)の変更を監視して表示を更新
     final userName = ref.watch(userNameProvider).toString();
-    final oshiColor = ref.watch(oshiColorProvider).toString();
-    final oshiIconName = ref.watch(oshiIconNameProvider).toString();
+    final oshiColor = ref.watch(oshiColorProvider);
+    final oshiIconName = ref.watch(oshiIconNameProvider);
 
-    UserInformation().userInfo(ref);
-
+    // サイズ設定の初期化
     Size().init(context);
     setState(() {
       x = Size.w! * 25;
@@ -81,20 +81,16 @@ class _ATMState extends ConsumerState<Home>
           foregroundColor: Color.fromARGB(255, 62, 58, 58),
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0.0,
+          // AppBar内左端の表示設定
           leadingWidth: Size.w! * 25,
-
-          //ユーザー名
-
           leading: Text(
-            //firebaseから持ってくる
             userName,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
             ),
           ),
-
-          //設定
+          // AppBar内右端（設定）の表示設定
           actions: [
             IconButton(
               onPressed: () {
@@ -114,13 +110,12 @@ class _ATMState extends ConsumerState<Home>
                 tap = !tap;
               });
             },
-            child: tapWidget()),
+            child: tapWidget()), //タップ時の表示切り替え
       ),
     );
   }
 
-  //user情報の取得、更新
-
+  // oshiアイコン名から対応するアイコン設定へのマッピング
   IconSetting(iconName) {
     Map<String, IconData> iconList = {
       "Home": Icons.home,
@@ -133,23 +128,29 @@ class _ATMState extends ConsumerState<Home>
     });
   }
 
-  //タップすると表示するものを変化するウィジェットを作成
-  @override
-  tapWidget() {
+  Widget tapWidget() {
+    // Widget を返すように修正
+
+    // ユーザー名、目標金額、貯金金額、推しリストを取得
     final userName = ref.watch(userNameProvider).toString();
     final goal_money = ref.watch(goalMoneyProvider);
     final sum_money = ref.watch(sumMoneyProvider);
     final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
 
     if (tap) {
+      // タップされた場合のウィジェット表示
       return Align(
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
 
-            donuts().chart(sum_money, goal_money, x, y),
-            makeWave().wave(waveController, x, y, ref),
+            // 貯金率グラフ（ドーナツチャート）を表示
+            donuts().chart(sum_money, goal_money, x, y,Color.fromARGB(255, 62, 58, 58)),
 
+            // アニメーションする波を生成
+            makeWave().wave(waveController, x, y, ref,Color.fromARGB(255, 62, 58, 58)),
+
+            // 推しリストのボタンを水平スクロールで表示
             Container(
               width: 115,
               height: 115,
@@ -158,52 +159,73 @@ class _ATMState extends ConsumerState<Home>
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (var i = 0; i < oshi_list.length; i++) oshi_button(i),
+                    if (oshi_list != null)
+                      for (var i = 0; i < oshi_list.length; i++)
+                        oshi_button(i), // 推しリストの要素数分ボタンを生成
                   ],
                 ),
               ),
             ),
           ]));
     } else {
+      // タップされていない場合のウィジェット表示
       return Align(
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
-            //firebaseから目標金額と貯金金額を持ってくる
-            donuts().chart(sum_money, goal_money, x, y),
-            makeWave().wave(waveController, x, y, ref),
+            donuts().chart(sum_money, goal_money, x, y,Color.fromARGB(255, 62, 58, 58)),
+
+            // アニメーションする波を生成
+            makeWave().wave(waveController, x, y, ref,Color.fromARGB(255, 62, 58, 58)),
           ]));
     }
   }
 
-  //推しごとのボタンの作成
+//推しごとのボタンの作成
   oshi_button(i) {
+    // 推しリスト、アイコンカラー、アイコン名を取得
     final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
     OshiInformation().oshiInfo(oshi_list, ref);
-
     final oshiColor = ref.read(oshiColorProvider);
     final iconName = ref.read(oshiIconNameProvider);
 
+    // アイコンカラーを16進数に変換
+
     String color = "FF" + oshiColor[i];
-    
+
+    // アイコン設定
     IconSetting(iconName[i]);
+
+    // 推しの情報を表示するアイコンボタンを生成
     return Stack(children: [
       IconButton(
         iconSize: 100,
         onPressed: () {
+          final oshiIndex = ref.read(oshiIndexProvider);
+          if (oshiIndex.length <= i) {
+            oshiIndex.add(i);
+          } else {
+            oshiIndex[i] = i;
+          }
+          print("推しのインデックスリストは$oshiIndex");
+
+          String oshiName = oshi_list[i];
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Oshi(i:i)),
+            MaterialPageRoute(
+                builder: (context) => Oshi(oshi :oshiName)), // 選択した推しの詳細ページを表示する画面に遷移
           );
         },
         icon: Icon(
           oshiIcon,
-          color: Color(int.parse(color, radix: 16)),
+          color: Color(int.parse(color, radix: 16)), // 16進数に変換したカラーでアイコン色を指定
         ),
       ),
-      Text(oshi_list[i])
+
+      Text(oshi_list[i]) // 推しの名前を表示
     ]);
   }
 
+// dispose処理
   @override
   void dispose() {
     waveController.dispose(); // AnimationControllerは明示的にdisposeする。
