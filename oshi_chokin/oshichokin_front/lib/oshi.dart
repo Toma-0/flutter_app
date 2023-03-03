@@ -29,6 +29,7 @@ class Oshi extends ConsumerStatefulWidget {
 }
 
 class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
+  
   late List indexList = ref.read(oshiIndexProvider);
   late List oshiList = ref.read(oshiListProvider);
   late List goalList = ref.read(oshiGoalMoneyProvider);
@@ -173,7 +174,7 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SyukkinPage()),
+                                  builder: (context) => SyukkinPage(oshi:widget.oshi)),
                             );
                           },
                           icon: Icon(Icons.payments, size: 115,color:Oshicolor),
@@ -187,7 +188,7 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChokinPage()),
+                                  builder: (context) => ChokinPage(oshi:widget.oshi)),
                             );
                           },
                           icon: Icon(Icons.savings, size: 115,color:Oshicolor),
