@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
@@ -18,6 +19,8 @@ import 'info/oshi_images.dart';
 import 'setting.dart';
 import "syukkin.dart";
 import "chokin.dart";
+import "calender.dart";
+import "button.dart";
 
 class Oshi extends ConsumerStatefulWidget {
   final String oshi;
@@ -29,7 +32,6 @@ class Oshi extends ConsumerStatefulWidget {
 }
 
 class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
-  
   late List indexList = ref.read(oshiIndexProvider);
   late List oshiList = ref.read(oshiListProvider);
   late List goalList = ref.read(oshiGoalMoneyProvider);
@@ -111,10 +113,10 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
   @override
   tapWidget() {
     int index = indexList[oshiList.indexOf(widget.oshi)];
-    int? goal = goalList[index];
-    int? sum = sumList[index];
+    num goal = goalList[index];
+    num sum = sumList[index];
     Map<int, List<String>>? imageMap = imageList[index];
-    
+
     String colorSt = "FF" + colorList[index];
     Color Oshicolor = Color(int.parse(colorSt, radix: 16));
 
@@ -143,8 +145,8 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
 
-            donuts().chart(sum ?? 0, goal ?? 0, x, y,Oshicolor),
-            makeWave().wave(waveController, x, y, ref,Oshicolor),
+            donuts().chart(sum ?? 0, goal ?? 0, x, y, Oshicolor),
+            makeWave().wave(waveController, x, y, ref, Oshicolor),
 
             Container(
               width: 115,
@@ -155,14 +157,40 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                 child: Row(
                   children: [
                     Container(
-                        width: 115,
-                        height: 115,
-                        child: Column(
-                          children: [
-                            Text("$oshiName専用貯金"),
-                            Text("$sum 円/ $goal 円"),
-                          ],
-                        )),
+                      width: 200,
+                      height: 115,
+                      child: Center(
+                        child:Text(
+                        oshiName,
+                        style: GoogleFonts.kiwiMaru(
+                          textStyle: TextStyle(fontSize: 30,color: Oshicolor),
+                        ),
+                      ),
+                      )
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          (sum / goal*100).toString() + "%",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 30,color: Oshicolor)),
+                          ),
+                        
+                        Text(
+                          "貯金:$sum円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                          ),
+                        ),
+                        Text(
+                          "目標:$goal円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                          ),
+                        ),
+                      ],
+                    ),
 
                     for (int i = 0; i < image!.length; i++)
                       Image.network(image[i], width: 115, height: 115),
@@ -174,10 +202,12 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SyukkinPage(oshi:widget.oshi)),
+                                  builder: (context) =>
+                                      SyukkinPage(oshi: widget.oshi)),
                             );
                           },
-                          icon: Icon(Icons.payments, size: 115,color:Oshicolor),
+                          icon:
+                              Icon(Icons.payments, size: 115, color: Oshicolor),
                         )),
 
                     Container(
@@ -188,10 +218,43 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChokinPage(oshi:widget.oshi)),
+                                  builder: (context) =>
+                                      ButtonPage(oshi: widget.oshi)),
                             );
                           },
-                          icon: Icon(Icons.savings, size: 115,color:Oshicolor),
+                          icon: Icon(Icons.home, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChokinPage(oshi: widget.oshi)),
+                            );
+                          },
+                          icon:
+                              Icon(Icons.savings, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Calender(oshi: widget.oshi)),
+                            );
+                          },
+                          icon: Icon(Icons.date_range,
+                              size: 115, color: Oshicolor),
                         )),
 
                     Container(
@@ -199,15 +262,8 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                         height: 115,
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.date_range, size: 115,color:Oshicolor),
-                        )),
-
-                    Container(
-                        width: 115,
-                        height: 115,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite, size: 115,color:Oshicolor),
+                          icon:
+                              Icon(Icons.favorite, size: 115, color: Oshicolor),
                         )),
 
                     Container(
@@ -217,7 +273,8 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                           onPressed: () {
                             ImageSet().upload(oshiList[index], user_id, ref);
                           },
-                          icon: Icon(Icons.image, size: 115, fill: 1.0,color:Oshicolor)),
+                          icon: Icon(Icons.image,
+                              size: 115, fill: 1.0, color: Oshicolor)),
                     )
                     //oshi_button(),
                   ],

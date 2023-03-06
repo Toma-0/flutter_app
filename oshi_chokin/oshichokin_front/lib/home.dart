@@ -25,6 +25,7 @@ import 'parts/waveAnime.dart';
 // ユーザ情報の取得用クラスのインポート
 import 'info/user_info.dart';
 import 'info/oshi_info.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // 状態(State)管理
 final userNameProvider = StateProvider((ref) => 'Hello World');
@@ -35,7 +36,8 @@ final oshiColorProvider = StateProvider((ref) => []);
 final oshiIconNameProvider = StateProvider((ref) => []);
 final oshiGoalMoneyProvider = StateProvider((ref) => []);
 final oshiSumMoneyProvider = StateProvider((ref) => []);
-final oshiImageListProvider = StateProvider<Map <int, Map <int, List<String>>>>((ref) => {0:{}});
+final oshiImageListProvider =
+    StateProvider<Map<int, Map<int, List<String>>>>((ref) => {0: {}});
 
 final oshiIndexProvider = StateProvider((ref) => []);
 
@@ -82,14 +84,7 @@ class _ATMState extends ConsumerState<Home>
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0.0,
           // AppBar内左端の表示設定
-          leadingWidth: Size.w! * 25,
-          leading: Text(
-            userName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
+
           // AppBar内右端（設定）の表示設定
           actions: [
             IconButton(
@@ -145,10 +140,12 @@ class _ATMState extends ConsumerState<Home>
             //firebaseから目標金額と貯金金額を持ってくる
 
             // 貯金率グラフ（ドーナツチャート）を表示
-            donuts().chart(sum_money, goal_money, x, y,Color.fromARGB(255, 62, 58, 58)),
+            donuts().chart(
+                sum_money, goal_money, x, y, Color.fromARGB(255, 62, 58, 58)),
 
             // アニメーションする波を生成
-            makeWave().wave(waveController, x, y, ref,Color.fromARGB(255, 62, 58, 58)),
+            makeWave().wave(
+                waveController, x, y, ref, Color.fromARGB(255, 62, 58, 58)),
 
             // 推しリストのボタンを水平スクロールで表示
             Container(
@@ -169,13 +166,64 @@ class _ATMState extends ConsumerState<Home>
           ]));
     } else {
       // タップされていない場合のウィジェット表示
+
       return Align(
           alignment: Alignment.center,
           child: Stack(alignment: AlignmentDirectional.center, children: [
-            donuts().chart(sum_money, goal_money, x, y,Color.fromARGB(255, 62, 58, 58)),
+            donuts().chart(
+                sum_money, goal_money, x, y, Color.fromARGB(255, 62, 58, 58)),
 
             // アニメーションする波を生成
-            makeWave().wave(waveController, x, y, ref,Color.fromARGB(255, 62, 58, 58)),
+            makeWave().wave(
+                waveController, x, y, ref, Color.fromARGB(255, 62, 58, 58)),
+
+            Container(
+              width: 115,
+              height: 115,
+              alignment: AlignmentDirectional.center,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 300,
+                      height: 115,
+                      
+                        child: Text(
+                          userName,
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 30),
+                          ),
+                        ),
+                      
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          (sum_money / goal_money).toString() + "%",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 30),
+                          ),
+                        ),
+                        Text(
+                          "貯金:$sum_money円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Text(
+                          "目標:$goal_money円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
           ]));
     }
   }
@@ -212,7 +260,8 @@ class _ATMState extends ConsumerState<Home>
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Oshi(oshi :oshiName)), // 選択した推しの詳細ページを表示する画面に遷移
+                builder: (context) =>
+                    Oshi(oshi: oshiName)), // 選択した推しの詳細ページを表示する画面に遷移
           );
         },
         icon: Icon(
