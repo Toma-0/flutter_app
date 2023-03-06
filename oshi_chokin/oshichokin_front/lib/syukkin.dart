@@ -11,6 +11,9 @@ import 'info/user_info.dart';
 
 import "config/size_config.dart";
 
+
+import "state/state.dart";
+
 import 'dentak.dart';
 import 'button.dart';
 

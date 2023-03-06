@@ -16,6 +16,9 @@ import 'info/user_info.dart';
 import 'info/oshi_info.dart';
 import 'info/oshi_images.dart';
 
+
+import "state/state.dart";
+
 import 'setting.dart';
 import "syukkin.dart";
 import "chokin.dart";

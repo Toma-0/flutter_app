@@ -16,6 +16,8 @@ import 'button.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import "state/state.dart";
+
 class ChokinPage extends ConsumerStatefulWidget {
   final String oshi;
   ChokinPage({Key? key, required this.oshi}) : super(key: key);

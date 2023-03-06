@@ -7,6 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WaveClipper extends CustomClipper<Path> {
   // 1
+  final BuildContext context;
+  final double waveControllerValue; // waveController.valueの値
+  final double offset; // 波のずれ
+  final List<Offset> coordinateList = []; // 波の座標のリスト
 
   WaveClipper(this.context, this.waveControllerValue, this.offset) {
     final width = MediaQuery.of(context).size.width; // 画面の横幅
@@ -22,12 +26,6 @@ class WaveClipper extends CustomClipper<Path> {
       );
     }
   }
-
-  final BuildContext context;
-  final double waveControllerValue; // waveController.valueの値
-  final double offset; // 波のずれ
-  final List<Offset> coordinateList = []; // 波の座標のリスト
-
   // 2
   @override
   Path getClip(size) {
@@ -56,7 +54,7 @@ high(ref) {
 
 class makeWave {
   @override
-  wave(waveController, x, y, ref,color) {
+  wave(waveController, x, y, ref, color) {
     high(ref);
     return AnimatedBuilder(
       animation: waveController,

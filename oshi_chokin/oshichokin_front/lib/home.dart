@@ -21,6 +21,8 @@ import "oshi.dart";
 // 描画のためのウィジェット関連のクラスのインポート
 import 'parts/donutsChart.dart';
 import 'parts/waveAnime.dart';
+import 'parts/slide.dart';
+import "parts/slide_parts.dart";
 
 // ユーザ情報の取得用クラスのインポート
 import 'info/user_info.dart';
@@ -28,18 +30,7 @@ import 'info/oshi_info.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // 状態(State)管理
-final userNameProvider = StateProvider((ref) => 'Hello World');
-final goalMoneyProvider = StateProvider((ref) => 0);
-final sumMoneyProvider = StateProvider((ref) => 0);
-final oshiListProvider = StateProvider((ref) => []);
-final oshiColorProvider = StateProvider((ref) => []);
-final oshiIconNameProvider = StateProvider((ref) => []);
-final oshiGoalMoneyProvider = StateProvider((ref) => []);
-final oshiSumMoneyProvider = StateProvider((ref) => []);
-final oshiImageListProvider =
-    StateProvider<Map<int, Map<int, List<String>>>>((ref) => {0: {}});
-
-final oshiIndexProvider = StateProvider((ref) => []);
+import 'state/state.dart';
 
 class Home extends ConsumerStatefulWidget {
   @override
@@ -188,14 +179,12 @@ class _ATMState extends ConsumerState<Home>
                     Container(
                       width: 300,
                       height: 115,
-                      
-                        child: Text(
-                          userName,
-                          style: GoogleFonts.kiwiMaru(
-                            textStyle: TextStyle(fontSize: 30),
-                          ),
+                      child: Text(
+                        userName,
+                        style: GoogleFonts.kiwiMaru(
+                          textStyle: TextStyle(fontSize: 30),
                         ),
-                      
+                      ),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
