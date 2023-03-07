@@ -148,7 +148,7 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
           child: Stack(alignment: AlignmentDirectional.center, children: [
             //firebaseから目標金額と貯金金額を持ってくる
 
-            donuts().chart(sum ?? 0, goal ?? 0, x, y, Oshicolor),
+            donuts().chart(sum, goal, x, y, Oshicolor),
             makeWave().wave(waveController, x, y, ref, Oshicolor),
 
             Container(

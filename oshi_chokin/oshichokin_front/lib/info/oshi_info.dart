@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oshichokin_front/home.dart';
 
+import "../state/state.dart";
+
 class OshiInformation {
   void listSetting(list, content, i) {
     if (list.length <= i) {
@@ -38,7 +40,6 @@ class OshiInformation {
 
           final task = docRef.get().then((snapshot) {
             if (snapshot.exists && snapshot.data() != null) {
-
               final ref = snapshot.data()!;
 
               final color = "FF" + ref['color'];
