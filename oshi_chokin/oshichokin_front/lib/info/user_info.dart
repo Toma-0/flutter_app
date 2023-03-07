@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oshichokin_front/home.dart';
 
+import "../state/state.dart";
+
 class UserInformation {
   static String userName = "ffffff";
   static int goal_money = 0;

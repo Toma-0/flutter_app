@@ -11,6 +11,9 @@ import 'info/user_info.dart';
 
 import "config/size_config.dart";
 
+
+import "state/state.dart";
+
 import 'dentak.dart';
 import 'button.dart';
 
@@ -47,9 +50,11 @@ class _SyukkinPage extends ConsumerState<SyukkinPage> {
     final title = titleController.text;
     final money = int.parse(moneyController.text);
     final contents = contentsController.text;
+    final today = DateTime.now();
+    final dateOnly = DateTime(today.year, today.month, today.day);
 
     Map<String, dynamic> data = {
-      "created_at": DateTime.now(),
+      "created_at": dateOnly,
       "title": title,
       "money": money,
       "contents": contents
