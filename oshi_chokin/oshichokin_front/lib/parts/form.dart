@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import "../state/state.dart";
-import 'package:firebase_auth/firebase_auth.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
+import'../state/import.dart';
 
 class form {
   //各種コントローラーの生成

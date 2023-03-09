@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-// 状態管理に関するライブラリをインポート
-import '../state/state.dart';
-
-// ファイルから推しの情報を取得するためのクラスファイルをインポート
-import '../info/oshi_info.dart';
+import'../state/import.dart';
 
 // 推し詳細ページのコンポーネントを含むファイルをインポート
 import '../oshi.dart';
