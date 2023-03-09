@@ -1,18 +1,6 @@
-//Firebase関連のパッケージとUIパッケージをimportする
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-//アプリケーションサイズに関する設定ファイルをimportする
-import '../config/size_config.dart';
-
-//数学関数のimport
+import '../state/import.dart';
+// mathパッケージのインポート
 import 'dart:math' as math;
-
-//ユーザー情報を格納したファイルをimportする
-import "../info/user_info.dart";
-
-//Flutter Riverpodパッケージをimportする
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //CustomClipperを拡張したWaveClipper classを宣言する
 class WaveClipper extends CustomClipper<Path> {
@@ -83,8 +71,8 @@ class makeWave {
           // クリップパスにより子要素を円形にカットしたコンテナー。1つ目のウェーブが描画される
           ClipPath(
             child: Container(
-              width: (Size.w! * (x - 60)) * 2,
-              height: Size.h! * y! * 10,
+              width: (WindowSize.w! * (x - 60)) * 2,
+              height: WindowSize.h! * y! * 10,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 255, 255, 255),
                 shape: BoxShape.circle,
@@ -96,8 +84,8 @@ class makeWave {
           // クリップパスにより子要素を円形にカットしたコンテナー。2つ目のウェーブが描画される
           ClipPath(
             child: Container(
-              width: (Size.w! * (x - 60)) * 2,
-              height: Size.h! * y!,
+              width: (WindowSize.w! * (x - 60)) * 2,
+              height: WindowSize.h! * y!,
               decoration: BoxDecoration(
                 color: Color.fromARGB(149, 255, 255, 255),
                 shape: BoxShape.circle,

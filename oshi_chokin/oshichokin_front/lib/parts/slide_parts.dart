@@ -11,7 +11,6 @@ import '../info/oshi_info.dart';
 import '../oshi.dart';
 
 class parts {
-
   oshiButton(index, ref, context) {
     // oshiListProviderが更新された時点で、ref.readメソッドを使って更新を監視したリストosih_listを作成
     final oshi_list = ref.watch(oshiListProvider) as List<dynamic>;
@@ -108,7 +107,6 @@ class parts {
 
         // カスタムフォントの設定
         style: GoogleFonts.kiwiMaru(
-
           // フォントサイズを設定
           textStyle: TextStyle(fontSize: 30),
         ),
@@ -117,8 +115,7 @@ class parts {
   }
 
 // 「現在の貯金額」と「目標の貯金額」から、進捗状況を含むウィジェットを作成する
-  money(sum,goal) {
-    
+  money(sum, goal) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -145,5 +142,15 @@ class parts {
         ),
       ],
     );
+  }
+
+  iconbutton(icon, void action, color) {
+    return Container(
+        width: 115,
+        height: 115,
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.favorite, size: 115, color: color),
+        ));
   }
 }

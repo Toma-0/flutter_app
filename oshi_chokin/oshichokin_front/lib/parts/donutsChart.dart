@@ -1,9 +1,9 @@
-import 'dart:math' as math;
-import 'package:flutter/material.dart';
-import '../config/size_config.dart';
+import '../state/import.dart';
+import 'package:oshichokin_front/config/size_config.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class donuts{
+  
   chart(sum, goal, x, y,Color chartcolor) {
   if (sum == 0) {
     sum = 1;
@@ -13,8 +13,8 @@ class donuts{
   }
 
   return Container(
-    width: Size.w! * x,
-    height: Size.h! * y,
+    width: WindowSize.w! * x,
+    height: WindowSize.h! * y,
     child: Stack(
       alignment: AlignmentDirectional.center,
       clipBehavior: Clip.none,
@@ -22,14 +22,14 @@ class donuts{
         PieChart(
           PieChartData(
             startDegreeOffset: 270,
-            centerSpaceRadius: Size.w! * (x - 60),
+            centerSpaceRadius: WindowSize.w! * (x - 60),
             centerSpaceColor: chartcolor,
             sections: [
               PieChartSectionData(
                 borderSide: BorderSide(width: 0),
                 color: chartcolor,
                 value: sum / goal * 100, //ここの値をfirebaseで変更
-                radius: Size.w! * 2,
+                radius: WindowSize.w! * 2,
                 title: '',
               ),
               
@@ -37,7 +37,7 @@ class donuts{
                 borderSide: BorderSide(width: 0),
                 color: Colors.white,
                 value: (1 - sum / goal) * 100, //ここの値をfirebaseで変更
-                radius: Size.w! * 2,
+                radius: WindowSize.w! * 2,
                 title: '',
               ),
             ],

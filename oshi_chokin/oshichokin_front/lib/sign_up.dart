@@ -1,15 +1,8 @@
-import 'package:flutter/material.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
+import 'state/import.dart';
 
 import 'home.dart';
 import "sign_in.dart";
 
-import 'config/size_config.dart';
-import 'config/color_config.dart';
 
 //アプリの大まかな構成。
 //今回はロゴのみ
@@ -41,10 +34,10 @@ class _sign_up extends State<sign_up> {
             decoration: BoxDecoration(
               border: Border.all(
                 color: Color.fromARGB(255, 118, 161, 184),
-                width: Size.w! * 1,
+                width: WindowSize.w! * 1,
               ),
             ),
-            width: Size.w! * 70,
+            width: WindowSize.w! * 70,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -78,7 +71,7 @@ class _sign_up extends State<sign_up> {
                       });
                     },
                     obscureText: view),
-                Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
+                Padding(padding: EdgeInsets.only(top: WindowSize.h! * 7)),
                 OutlinedButton(
                   child: const Text("ログイン"),
                   style: ButtonStyle(

@@ -1,14 +1,7 @@
-import 'package:flutter/material.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
+import 'state/import.dart';
 
 import 'home.dart';
 import "sign_up.dart";
-import 'config/size_config.dart';
 
 //新しくユーザーを作成する画面
 
@@ -71,7 +64,7 @@ class _sign_in extends State<sign_in> {
   }
 
   Widget build(BuildContext context) {
-    Size().init(context);
+    WindowSize().init(context);
     return MaterialApp(
       home: Scaffold(
       body: Center(
@@ -80,10 +73,10 @@ class _sign_in extends State<sign_in> {
             decoration: BoxDecoration(
               border: Border.all(
                 color: Color.fromARGB(255, 118, 161, 184),
-                width: Size.w! * 1,
+                width: WindowSize.w! * 1,
               ),
             ),
-            width: Size.w! * 70,
+            width: WindowSize.w! * 70,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -119,7 +112,7 @@ class _sign_in extends State<sign_in> {
                       });
                     },
                     obscureText: view),
-                Padding(padding: EdgeInsets.only(top: Size.h! * 7)),
+                Padding(padding: EdgeInsets.only(top: WindowSize.h! * 7)),
                 OutlinedButton(
                   child: Text("新規作成"),
                   style: ButtonStyle(

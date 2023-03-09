@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'dart:io';
 
-import 'package:oshichokin_front/home.dart';
-
 // ImageSetクラスを定義
 class ImageSet {
   // _imgというImage型のプロパティを定義

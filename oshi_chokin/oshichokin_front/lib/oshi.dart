@@ -1,23 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:oshichokin_front/home.dart';
-import 'config/size_config.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'parts/donutsChart.dart';
-import 'parts/waveAnime.dart';
-
-import 'info/user_info.dart';
-import 'info/oshi_info.dart';
-import 'info/oshi_images.dart';
-
-
-import "state/state.dart";
+import "state/import.dart";
 
 import 'setting.dart';
 import "syukkin.dart";
@@ -49,8 +30,8 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
   late String user_id = "test";
 
   // `ref.read` 関数 == Reader クラス
-  double x = Size.w! * 25;
-  double y = Size.h! * 25;
+  double x = WindowSize.w! * 25;
+  double y = WindowSize.h! * 25;
   IconData? oshiIcon = Icons.settings;
 
   late AnimationController waveController = AnimationController(
@@ -67,7 +48,7 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
           foregroundColor: Color.fromARGB(255, 62, 58, 58),
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0.0,
-          leadingWidth: Size.w! * 25,
+          leadingWidth: WindowSize.w! * 25,
 
           //ユーザー名
 
@@ -136,10 +117,10 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
       number = 0;
     }
 
-    Size().init(context);
+    WindowSize().init(context);
     setState(() {
-      x = Size.w! * 25;
-      y = Size.h! * 25;
+      x = WindowSize.w! * 25;
+      y = WindowSize.h! * 25;
     });
 
     if (tap) {
@@ -160,36 +141,38 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
                 child: Row(
                   children: [
                     Container(
-                      width: 200,
-                      height: 115,
-                      child: Center(
-                        child:Text(
-                        oshiName,
-                        style: GoogleFonts.kiwiMaru(
-                          textStyle: TextStyle(fontSize: 30,color: Oshicolor),
-                        ),
-                      ),
-                      )
-                    ),
+                        width: 200,
+                        height: 115,
+                        child: Center(
+                          child: Text(
+                            oshiName,
+                            style: GoogleFonts.kiwiMaru(
+                              textStyle:
+                                  TextStyle(fontSize: 30, color: Oshicolor),
+                            ),
+                          ),
+                        )),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          (sum / goal*100).toString() + "%",
+                          (sum / goal * 100).toString() + "%",
                           style: GoogleFonts.kiwiMaru(
-                            textStyle: TextStyle(fontSize: 30,color: Oshicolor)),
-                          ),
-                        
+                              textStyle:
+                                  TextStyle(fontSize: 30, color: Oshicolor)),
+                        ),
                         Text(
                           "貯金:$sum円",
                           style: GoogleFonts.kiwiMaru(
-                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                            textStyle:
+                                TextStyle(fontSize: 10, color: Oshicolor),
                           ),
                         ),
                         Text(
                           "目標:$goal円",
                           style: GoogleFonts.kiwiMaru(
-                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                            textStyle:
+                                TextStyle(fontSize: 10, color: Oshicolor),
                           ),
                         ),
                       ],

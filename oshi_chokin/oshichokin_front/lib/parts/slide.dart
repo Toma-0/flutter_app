@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class fild {
-  _fild(List list,x,y) {
+  makefild(List list,x,y) {
     //ウィジェットのリストを入力。
     //Rowを返す。
     return Container(

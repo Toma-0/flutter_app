@@ -1,22 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'state/import.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import "home.dart";
 import "oshi.dart";
-
-import 'info/oshi_info.dart';
-import "info/user_info.dart";
-import "config/size_config.dart";
 
 import 'dentak.dart';
 import 'button.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import "state/state.dart";
+
+
 
 class ChokinPage extends ConsumerStatefulWidget {
   final String oshi;
@@ -166,7 +157,7 @@ class _ChokinPage extends ConsumerState<ChokinPage> {
   }
 
   makeForm(Color oshicolor) {
-    final double y = (Size.h! * 100) - 116;
+    final double y = (WindowSize.h! * 100) - 116;
     return Form(
       child: Column(
         children: <Widget>[
