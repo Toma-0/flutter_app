@@ -1,7 +1,14 @@
-import 'state/import.dart';
+import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
 
 import 'home.dart';
 import "sign_up.dart";
+import '../config/size_config.dart';
 
 //新しくユーザーを作成する画面
 

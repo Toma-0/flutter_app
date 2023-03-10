@@ -1,4 +1,23 @@
-import "state/import.dart";
+import 'package:flutter/material.dart';
+import 'package:oshichokin_front/home.dart';
+import '../config/size_config.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../parts/donutsChart.dart';
+import '../parts/waveAnime.dart';
+
+import '../info/user_info.dart';
+import '../info/oshi_info.dart';
+import '../info/oshi_images.dart';
+
+
+import "../state/state.dart";
 
 import 'setting.dart';
 import "syukkin.dart";
@@ -40,9 +59,6 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
   )..repeat();
 
   Widget build(BuildContext context) {
-    int index = indexList[oshiList.indexOf(widget.oshi)];
-    String colorSt = "FF" + colorList[index];
-    Color Oshicolor = Color(int.parse(colorSt, radix: 16));
     print("buildWidgetでは$imageList");
     return MaterialApp(
       home: Scaffold(
@@ -66,8 +82,15 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
 
           //設定
           actions: [
-            parts()
-                .iconbutton(Icons.settings, Navi().setting(context), Oshicolor)
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingPage()),
+                );
+              },
+              icon: Icon(Icons.settings),
+            ),
           ],
         ),
         body: GestureDetector(onTap: () {}, child: tapWidget()),
@@ -119,45 +142,150 @@ class _Oshi extends ConsumerState<Oshi> with SingleTickerProviderStateMixin {
       y = WindowSize.h! * 25;
     });
 
-    return Align(
-        alignment: Alignment.center,
-        child: Stack(alignment: AlignmentDirectional.center, children: [
-          //firebaseから目標金額と貯金金額を持ってくる
+    if (tap) {
+      return Align(
+          alignment: Alignment.center,
+          child: Stack(alignment: AlignmentDirectional.center, children: [
+            //firebaseから目標金額と貯金金額を持ってくる
 
-          donuts().chart(sum, goal, x, y, Oshicolor),
-          makeWave().wave(waveController, x, y, ref, Oshicolor),
+            donuts().chart(sum, goal, x, y, Oshicolor),
+            makeWave().wave(waveController, x, y, ref, Oshicolor),
 
-          Container(
-            width: 115,
-            height: 115,
-            alignment: AlignmentDirectional.center,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  parts().name(oshiName, Oshicolor),
-                  parts().money(sum, goal),
-                  for (int i = 0; i < image!.length; i++)
-                    Image.network(image[i], width: 115, height: 115),
-                  parts().iconbutton(Icons.payments,
-                      Navi().syukkin(context, widget.oshi), Oshicolor),
-                  parts().iconbutton(Icons.home,
-                      Navi().button(context, widget.oshi), Oshicolor),
-                  parts().iconbutton(Icons.savings,
-                      Navi().chokin(context, widget.oshi), Oshicolor),
-                  parts().iconbutton(Icons.date_range,
-                      Navi().calender(context, widget.oshi), Oshicolor),
-                  parts().iconbutton(Icons.favorite,
-                      Navi().sns(context, widget.oshi), Oshicolor),
-                  parts().iconbutton(
-                      Icons.image,
-                      ImageSet().upload(oshiList[index], user_id, ref),
-                      Oshicolor),
-                ],
+            Container(
+              width: 115,
+              height: 115,
+              alignment: AlignmentDirectional.center,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 115,
+                      child: Center(
+                        child:Text(
+                        oshiName,
+                        style: GoogleFonts.kiwiMaru(
+                          textStyle: TextStyle(fontSize: 30,color: Oshicolor),
+                        ),
+                      ),
+                      )
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          (sum / goal*100).toString() + "%",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 30,color: Oshicolor)),
+                          ),
+                        
+                        Text(
+                          "貯金:$sum円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                          ),
+                        ),
+                        Text(
+                          "目標:$goal円",
+                          style: GoogleFonts.kiwiMaru(
+                            textStyle: TextStyle(fontSize: 10,color: Oshicolor),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    for (int i = 0; i < image!.length; i++)
+                      Image.network(image[i], width: 115, height: 115),
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SyukkinPage(oshi: widget.oshi)),
+                            );
+                          },
+                          icon:
+                              Icon(Icons.payments, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ButtonPage(oshi: widget.oshi)),
+                            );
+                          },
+                          icon: Icon(Icons.home, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChokinPage(oshi: widget.oshi)),
+                            );
+                          },
+                          icon:
+                              Icon(Icons.savings, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Calender(oshi: widget.oshi)),
+                            );
+                          },
+                          icon: Icon(Icons.date_range,
+                              size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                        width: 115,
+                        height: 115,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon:
+                              Icon(Icons.favorite, size: 115, color: Oshicolor),
+                        )),
+
+                    Container(
+                      width: 115,
+                      height: 115,
+                      child: IconButton(
+                          onPressed: () {
+                            ImageSet().upload(oshiList[index], user_id, ref);
+                          },
+                          icon: Icon(Icons.image,
+                              size: 115, fill: 1.0, color: Oshicolor)),
+                    )
+                    //oshi_button(),
+                  ],
+                ),
               ),
             ),
-          ),
-        ]));
+          ]));
+    }
   }
 
   @override

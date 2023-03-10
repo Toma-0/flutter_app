@@ -1,8 +1,14 @@
-import 'state/import.dart';
+import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 import "sign_in.dart";
 
+import '../config/size_config.dart';
 
 //アプリの大まかな構成。
 //今回はロゴのみ

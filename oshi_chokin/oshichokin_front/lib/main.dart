@@ -1,10 +1,15 @@
-import 'state/import.dart';
-
+import 'dart:math' as math;
+import 'package:flutter/material.dart';
+import '../config/size_config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'setting.dart';
-
+import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'home.dart';
 import 'sign_in.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,4 +1,4 @@
-import 'state/import.dart';
+import 'package:flutter/material.dart';
 
 class DentakuPage extends StatelessWidget {
   @override

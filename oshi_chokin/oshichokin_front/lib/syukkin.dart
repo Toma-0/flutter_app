@@ -1,6 +1,23 @@
-import 'state/import.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import "home.dart";
 import "oshi.dart";
+import '../info/oshi_info.dart';
+import '../info/user_info.dart';
+
+import "../config/size_config.dart";
+
+
+import "../state/state.dart";
+
+import 'dentak.dart';
+import 'button.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SyukkinPage extends ConsumerStatefulWidget {
   final String oshi;

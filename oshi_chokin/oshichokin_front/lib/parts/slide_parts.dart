@@ -21,7 +21,7 @@ class parts {
     String color = "FF" + oshiColor[index];
 
     // アイコン設定
-    IconSetting(iconName[index]);
+    iconSetting(iconName[index]);
 
     return Stack(children: [
       IconButton(
@@ -55,22 +55,26 @@ class parts {
                     Oshi(oshi: oshiName)),
           );
         },
+
         icon: Icon(
           // 推しのアイコン名に応じてアイコンを生成する。
-          IconSetting(iconName),
+          iconSetting(iconName),
 
           // 16進数に変換したカラーでアイコン色を指定（ここではradix=16で16進数に変換）
           color: Color(int.parse(color, radix: 16)),
         ),
       ),
 
-      Text(oshi_list[index]) // 推しの名前を表示
+      Text(oshi_list[index],
+      style: TextStyle(
+        color:Color(int.parse(color, radix: 16)),
+      ),) // 推しの名前を表示
     ]);
   }
 
 // 引数iconNameには、アイコン名が渡される
-  IconSetting(iconName) {
-    // アイコン名からアイコンを取得する方法を次で示す。
+  iconSetting(iconName) {
+      // アイコン名からアイコンを取得する方法を次で示す。
     IconData? oshiIcon = Icons.settings;
 
     // keyとvalueのセットがMultiple処理であるマップへの変換。iocnNameでアクセスできるアイコンのためのkey-value pair
