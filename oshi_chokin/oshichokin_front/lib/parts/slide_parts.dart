@@ -1,4 +1,4 @@
-import'../state/import.dart';
+import '../state/import.dart';
 
 // 推し詳細ページのコンポーネントを含むファイルをインポート
 import '../oshi.dart';
@@ -85,14 +85,14 @@ class parts {
     return oshiIcon;
   }
 
-  name(showName) {
+  name(showName,color) {
     return Container(
       // コンテナの幅を設定
-      width: 300,
+      width: 200,
 
       // コンテナの高さを設定
       height: 115,
-
+      child:Center(
       // テキストを表示する部分の設定
       child: Text(
         // 引数のユーザー名を表示
@@ -101,8 +101,9 @@ class parts {
         // カスタムフォントの設定
         style: GoogleFonts.kiwiMaru(
           // フォントサイズを設定
-          textStyle: TextStyle(fontSize: 30),
+          textStyle: TextStyle(fontSize: 30,color: color),
         ),
+      ),
       ),
     );
   }
@@ -142,7 +143,9 @@ class parts {
         width: 115,
         height: 115,
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            action;
+          },
           icon: Icon(Icons.favorite, size: 115, color: color),
         ));
   }

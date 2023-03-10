@@ -121,7 +121,7 @@ class _ATMState extends ConsumerState<Home>
           ]));
     } else {
       // タップされていない場合のウィジェット表示
-      nontaplist.add(parts().name(userName));
+      nontaplist.add(parts().name(userName,Color.fromARGB(255, 62, 58, 58)));
       nontaplist.add(parts().money(sum_money,goal_money));
 
       return Align(
